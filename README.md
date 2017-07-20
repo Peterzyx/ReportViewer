@@ -1,5 +1,5 @@
 # Introduction
-ReportViewer allows the customers to work with the report sets assigned to them. The web interface is based on the MVC SSRS 2010 ReportViewer component. 
+ReportViewer allows the customers to work with the report sets assigned to them. The web interface is based on the MVC SSRS 2010 MVCReportViewer component, AngularJS, JQuery, Dapper and MdxClient technology. 
 It requests the reports available through the service and reflects them in a form of list view on the landing page.
 To run the project, login under your local credentials when on the login page. To make report service work, enter your user name/password  in Configuration/App.config file in the placeholders (user and password respectively),
 in both places.  
