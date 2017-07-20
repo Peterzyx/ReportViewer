@@ -1,0 +1,82 @@
+﻿@model BTX.ReportViewer.ViewModels.GridsModel
+@{
+    ViewBag.Title = "Index";
+    if (ViewBag.HeaderOption == 1)
+    {
+        Layout = "~/Views/Shared/Layout.cshtml";
+    } else
+    {
+        Layout = "~/Views/Shared/MenuLayout.cshtml";
+    }
+}
+
+<div class="section" id="sectionGrids">
+    <div class="col-md-12">
+        <ul id="navtabs" class="nav nav-tabs" role="tablist" style="padding-top:10px;">
+            <li class="dropdown active">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Main<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li class="active"><a href="#landingpage" role="tab" data-toggle="tab">Landing Page</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Market Reports<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#marketsalesreport" role="tab" data-toggle="tab">Sales By Agency (Top 50)</a></li>
+                    <li><a href="#salessummarybysegments" role="tab" data-toggle="tab">Sales By Segments</a></li>
+                </ul>
+            </li> 
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sales Team Reports<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#salessummaryreport" role="tab" data-toggle="tab">Sales Summary by Territory</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+
+            <div id="landingpage" class="tab-pane fade in active">
+                @*<h2 class="title animated fadeInDown" style="margin-top:10px; text-transform:none; margin-bottom:10px;">
+                    Landing Page
+                </h2>*@
+                @Html.Partial("~/Views/Grids/LandingPage.cshtml")
+            </div>
+
+            <div id="marketsalesreport" class="tab-pane fade">
+                <h2 class="title animated fadeInDown" style="margin-top:10px; text-transform:none; margin-bottom:10px;">
+                    Sales by Agency (Top 50) - Ontario
+                </h2>
+                @Html.Partial("~/Views/Grids/SalesByAgencyTop50.cshtml")
+            </div>
+
+            <div id="salessummarybysegments" class="tab-pane fade">
+                <h2 class="title animated fadeInDown" style="margin-top:10px; text-transform:none; margin-bottom:10px;">
+                    Sales by Segments - Ontario
+                </h2>
+                @Html.Partial("~/Views/Grids/SalesSummaryBySegments.cshtml")
+            </div>
+
+            <div id="salessummaryreport" class="tab-pane fade">
+                <h2 class="title animated fadeInDown" style="margin-top:10px; text-transform:none; margin-bottom:10px;">
+                    Sales Summary by Territory
+                </h2>
+                @Html.Partial("~/Views/Grids/SalesSummaryByTerritory.cshtml")
+            </div>
+
+            <div id="salesteamreport" class="tab-pane fade">
+                <h2 class="title animated fadeInDown" style="margin-top:10px; text-transform:none; margin-bottom:10px;">
+                    Sales Team Report
+                </h2>
+                @Html.Partial("~/Views/Grids/SalesTeam.cshtml")
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<input type="hidden" value=@(ViewBag.HeaderOption) id="HeaderOption">
+
+
+

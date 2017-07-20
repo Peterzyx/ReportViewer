@@ -1,0 +1,210 @@
+/******************************************************/
+/*******          YOUR STYLES GO HERE        **********/
+/******* THIS FILE OVERRIDES STANDARD STYLES **********/
+/*****************************************************/
+
+/*FONTS*/
+@import url('https://fonts.googleapis.com/css?family=Roboto|Italianno|Niconne');
+@import url('https://fonts.googleapis.com/css?family=Cardo|Frank+Ruhl+Libre|Playball|Tangerine');
+
+/*HEADER BACKGROUND*/
+.headerWrapper {
+    background-color: #f5f5f5;
+    height: 100px;
+}
+
+/*SIGN-IN DATA*/
+.signInInfo {
+    color: #000080;
+}
+
+/*TOP LEFT LOGO*/
+#siteLogo {
+    height: 100px;
+    width: 100px;
+    border: none;
+    background: url(../Images/default.png) no-repeat;
+}
+
+/*COMPANY NAME TEXT*/
+#siteText > h1 {
+    color: #6495ed;
+}
+
+/*REPORT ITEMS*/
+.reportItemContainer {
+    margin: 10px 15px;
+}
+
+.reportItemContainer h1 > a {
+    font-size: 14px;
+    color: #0b445d;
+    text-decoration: none !important;
+}
+
+.reportLink {
+    color:#696969;
+    overflow-wrap: normal;
+    white-space: pre-line;
+    word-wrap: break-word;
+}
+
+.descText {
+    overflow-wrap: normal;
+    white-space: pre-line;
+    word-wrap: break-word;
+}
+
+.list-group li {
+    list-style: none;
+}
+
+/*REPORT LINK PANELS*/
+.reportWrapper .panel:hover {
+    background: rgb(255,255,255); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(243,243,243,1) 50%, rgba(237,237,237,1) 51%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.reportHeaderLink {
+    padding-top: 12px;
+}
+
+/*COMPANY NAME - PRESSED EFFECT*/
+.companyName {
+    color: #2f4050;
+    font-size: 55px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    /*text-transform: uppercase;*/
+    text-shadow: 0 1px 1px #fff;
+}
+
+/* Henry of Pelham styling*/
+:lang(bookAnt) 	{font-family: 'Cardo', serif; /*font-size: 65px;*/ color: #2f4050; text-shadow: 0 1px 1px #fff;}
+:lang(lucindaCal) 	{font-family: 'Italianno',serif; /*font-size: 75px;*/ color: #2f4050; text-shadow: 0 1px 1px #fff;}
+
+
+/*Report Tree Directory*/
+.reportTreeDirectory {
+    margin-top: 15px;
+    padding-bottom: 50px;
+    border-right: 1px solid #ccc;
+}
+
+.reportTreeDirectory ul {
+    padding-left: 0px;
+}
+.reportTreeDirectory div.titleContainer {
+    margin-bottom: 15px;
+}
+
+.reportTreeDirectory ul li {
+    list-style: none;
+    cursor: pointer;
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    padding: 6px 9px;
+}
+ 
+.reportTreeDirectory ul li.selected span.foldertitle::before {
+    font-family: FontAwesome;
+    content: "\f07b   ";
+}
+.reportTreeDirectory ul li span.foldertitle::before {
+    font-family: FontAwesome;
+    content: "\f114   ";
+}
+.reportTreeDirectory ul li > span.foldertitle {
+    margin-top: 15px;
+    text-transform: uppercase;
+}
+.reportTreeDirectory ul li.selected > span.foldertitle {
+    font-weight: bold;
+}
+
+.reportTreeDirectory ul li[data-class]:hover{
+    background-color: #1d81cf;
+    color: #fff;
+    font-weight: normal;
+}
+
+#viewButton {
+    color: #ffffff;
+    border-color: #2e6da4;
+    border-radius: 4px;
+    text-transform: initial;
+}
+
+#exportButton {
+    color: #ffffff;
+    border-color: #2e6da4;
+    border-radius: 4px;
+    text-transform: initial;
+}
+
+.modal-footer > button {
+    /*color: #ffffff;*/
+    border-color: #2e6da4;
+    border-radius: 4px;
+    text-transform: initial;
+}
+
+#excelexport {
+    color: #ffffff;
+}
+
+/*Floating Menu*/
+#fl_menu {
+    position: absolute;
+    top: -6px;
+    right: 14px;
+    z-index: 9999;
+    width: 150px;
+    height: 40px;
+}
+
+#fl_menu:hover {
+    cursor: pointer;
+}
+
+#fl_menu .label{
+    padding-left:20px; 
+    line-height:40px; 
+    font-family: 'Roboto', sans-serif; 
+    font-size:14px; 
+    font-weight:bold; 
+    background:#d8dde6;
+    color:#7e7c82; 
+    letter-spacing:7px;
+    background-image:linear-gradient(to bottom,#f5f5f5 0,#e8e8e8 100%);
+}
+
+#fl_menu .menu{
+    display:none;
+}
+
+#fl_menu .menu .menu_item{
+    display:block; 
+    background:#d8dde6; 
+    color:#fff; 
+    border-top:1px solid #fff; 
+    padding:10px 20px; 
+    font-family: 'Roboto', sans-serif; 
+    /*font-size:16px;*/ 
+    text-decoration:none;
+}
+
+#fl_menu .menu a.menu_item:hover{
+    background:#dfe4ea;
+    color:#7e7c82;
+}
+
+/*search input at the landing page*/
+#landingpage .input-group input {
+    z-index: 1;
+}

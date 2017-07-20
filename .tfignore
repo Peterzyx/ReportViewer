@@ -1,0 +1,16 @@
+# IGNORE STATEMENTS
+
+# Ignore folders
+#\packages
+
+# Ignore separate files
+ReportViewer.sln
+#ReportViewer\Web.config
+ReportViewer\packages.config
+ReportViewer\ReportViewer.csproj
+
+
+######################
+
+# DO NOT IGNORE STATEMENTS
+# Starts from '!.file name'

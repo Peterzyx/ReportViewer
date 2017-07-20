@@ -1,0 +1,40 @@
+﻿<div>
+    <div ng-controller="LandingCtrl" ng-cloak>
+        <br />
+        <div class="input-group">      
+            <span class="input-group-addon">LCBO: </span>
+            <input type="text" class="form-control" ng-model="searchTextLCBO" ng-change="refreshDataLCBO()" placeholder="Search..." aria-describedby="basic-addon1" />
+        </div>
+        <br />
+        <div id="grid1" style="height:173px" ui-grid="gridLCBO" class="grid" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-auto-resize>
+            <div class="well grid-loading" ng-hide="!loadingLCBO">
+            </div>
+        </div>
+        <br />
+        <div class="input-group">
+            <span class="input-group-addon">Licensee: </span>
+            <input type="text" class="form-control" ng-model="searchTextLic" ng-change="refreshDataLic()" placeholder="Search..." aria-describedby="basic-addon1" />
+        </div>
+        <br />
+        <div id="grid1" style="height:173px" ui-grid="gridLic" class="grid" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-auto-resize>
+            <div class="well grid-loading" ng-hide="!loadingLic">
+            </div>
+        </div>
+        <br />
+        <div class="input-group">
+            <span class="input-group-addon">CSPC: </span>
+            <input type="text" class="form-control" ng-model="searchTextCSPC" ng-change="refreshDataCSPC()" placeholder="Search..." aria-describedby="basic-addon1" />
+        </div>
+        <br />
+        <div id="grid1" style="height:173px" ui-grid="gridCSPC" class="grid" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-auto-resize>
+            <div class="well grid-loading" ng-hide="!loadingCSPC">
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="@Url.Action("SalesPersonalStore", "Grids")" id="SalesPersonalStoreUrl">
+<input type="hidden" value="@Url.Action("SalesPersonalLicensee", "Grids")" id="SalesPersonalLicenseeUrl">
+<input type="hidden" value="@Url.Action("StoreLicenseeForProduct", "Grids")" id="StoreLicenseeForProductUrl">
+
+

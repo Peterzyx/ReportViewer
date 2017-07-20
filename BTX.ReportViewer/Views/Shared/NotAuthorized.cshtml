@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE>
+<html>
+<head>
+    <meta name="viewpoint" content="width=device-width"/>
+    <title>Error</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="alert alert-danger">
+        <h3>Error</h3>
+        <p>You're not authorized to view this resource, please contact your Domain Administrator</p><br />
+        <div><input type="button" class="btn btn-danger" id="btnBack" value="Go to Login Page" onclick="@("window.location.href='" + @Url.Action("Login", "Account") + "'");" /></div>
+    </div>
+</body>
+</html>

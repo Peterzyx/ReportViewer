@@ -1,0 +1,16 @@
+﻿@model BTX.ReportViewer.EntityModel.Node
+
+<ul>
+    <li class="@Model.CssClass" data-class="@Model.CssClass">
+        <span class="foldertitle">@Model.Name</span>
+    </li>
+    @if (Model.Children.Count() > 0)
+    {
+        <li>
+            @foreach (var node in Model.Children)
+            {
+                @Html.Partial("_ReportsFolderTree", node)
+            }
+        </li>
+    }
+</ul>

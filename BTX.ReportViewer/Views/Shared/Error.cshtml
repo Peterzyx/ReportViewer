@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE>
+<html>
+<head>
+    <meta name="viewpoint" content="width=device-width" />
+    <title>Error</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="alert alert-warning">
+        <h3>Error</h3>
+        <p>Something went wrong.  If the problem persists, please contact your Administrator</p><br/>
+        <div><input type="button" class="btn btn-success" id="btnBack" value="Back to Home Page" onclick="@("window.location.href='" + @Url.Action("Index", "Reports") + "'");" /></div>
+    </div>
+</body>
+</html>

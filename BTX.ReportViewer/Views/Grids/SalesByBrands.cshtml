@@ -1,0 +1,90 @@
+﻿@model BTX.ReportViewer.ViewModels.GridsModel
+
+@{
+    if (ViewBag.HeaderOption == 1)
+    {
+        Layout = "~/Views/Shared/SubGridLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/MenuLayout.cshtml";
+    }
+    string period = Model.period;
+    int agentid = Model.agentid;
+    string agentname = Model.agentname;
+    string setnames = Model.setnames;
+    string unitsizes = Model.unitsizes;
+    decimal pricefrom = Model.pricefrom;
+    decimal priceto = Model.priceto;
+    int selectedgroupid = Model.selectedgroupid;
+}
+
+<input type="hidden" value="@period" id="SalesPeriod">
+<input type="hidden" value="@agentid" id="SalesAgentId">
+<input type="hidden" value="@agentname" id="SalesAgentName">
+<input type="hidden" value="@setnames" id="SalesSetNames">
+<input type="hidden" value="@unitsizes" id="SalesUnitSizes">
+<input type="hidden" value="@pricefrom" id="SalesPriceFrom">
+<input type="hidden" value="@priceto" id="SalesPriceTo">
+<input type="hidden" value="@selectedgroupid" id="SalesSelectedGroupId">
+
+<div class="section" id="subGrid1">
+    <div class="col-md-12">
+
+        <div ng-controller="agentSalesCtrl" ng-cloak>
+
+            @*Filters Section*@
+            <h2 class="title" data-animate="fadeInDown" style="margin-top:10px; text-transform:none;">
+                Sales by Brands - @agentname - Last completed period: @period
+            </h2>
+            <uib-accordion close-others="oneAtATime">
+                <div uib-accordion-group class="panel-default" is-open="status.open">
+                    <uib-accordion-heading>
+                        Select Grid Parameters <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                    </uib-accordion-heading>
+                    <form id="grid1filters" style="margin-top: 10px; padding-right: 15px; padding-left:15px;">
+                        <div class="form-group row">
+                            <div class="col-md-8">
+                                <h4><label class="col-sm-2 col-form-label">Metric</label></h4>
+                                <span uib-dropdown on-toggle="toggled(open)">
+                                    <button class="btn btn-default" href id="simple-dropdown" uib-dropdown-toggle>
+                                        {{selectedgroup.label}}
+                                        <span class="caret">
+                                        </span>
+                                    </button>
+                                    <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown" style="max-height:400px; overflow:auto; margin-top:8px;">
+                                        <li ng-repeat="choice in groups">
+                                            <a ng-click="groupdropboxitemselected(choice)">{{choice.label}}</a>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-primary" ng-click="Reload()">Refresh</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </uib-accordion>
+
+
+            @*Grid Body*@
+            <div class="custom-csv-link-location">
+                <span class="ui-grid-exporter-csv-link">&nbsp;</span>
+            </div>
+            <div id="grid1" style="height:650px" ui-grid="gridOptions" class="grid" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter>
+                <div class="well grid-loading" ng-hide="gridOptions.data.length && !loading">
+                    <span class="grid-loading-text">
+                        <i class="fa fa-spin fa-spinner"></i>
+                        <strong>Data Loading...</strong>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="@Url.Action("SalesByProducts", "Grids")" id="SalesByProductsUrl">
+<input type="hidden" value=@(ViewBag.HeaderOption) id="HeaderOption">

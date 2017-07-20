@@ -1,0 +1,80 @@
+﻿@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "Layout.cshtml";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    string name = ViewBag.CurrentUserFirstName + " " + ViewBag.CurrentUserLastName;
+}
+<!-- NAVBAR -->
+<div id="wrap">
+    <header id="header" style="z-index:2">
+        <nav id="head-nav" class="navbar topnavbar navbar-fixed-top" role="navigation" data-spy="affix" data-offset-top="200">
+            <div>
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a href="#header" class="navbar-brand header"><img src="~/Content/Images/FWM_Logo - Copy.JPG" alt="" height="60"></a>
+                    <a class="navbar-name">
+                        @*<span lang="bookAnt">Henry</span>
+                        <span lang="lucindaCal">of</span>
+                        <span lang="bookAnt">&nbsp;Pelham</span>*@
+                        @Html.Raw(ViewBag.CompanyName)
+                    </a>
+                </div>
+                <!-- Navigation -->
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="nav pull-right navbar-nav" id="main_navigation_menu">
+                        <li class="nonActive hidden" id="homeCtrl" data-balloon="Return back to home page" data-balloon-pos="down">
+                            <a href="~/"><i class="fa fa-home"></i></a>
+                        </li>
+                        <li class="nonActive" id="gridCtrl" data-balloon="Business Grids Console" data-balloon-pos="down">
+                            <a href="~/"><i class="fa fa-th"></i></a>
+                        </li>
+                        <li class="nonActive" id="rptCtrl" data-balloon="Business Intelligence Reports Console" data-balloon-pos="down">
+                            <a href="~/Reports/Index"><i class="fa fa-file"></i></a>
+                        </li>
+                        <li class="nonActive" id="sptCtrl" data-balloon="Contact Support" data-balloon-pos="down">
+                            <a href="mailto:support@bottlitix.com"><i class="fa fa-envelope-o"></i></a>
+                        </li>
+                        <li class="active">
+                            <a href="#intro"><text>Signed in as @name</text></a>
+                        </li>
+                        <li>
+                            <a href="~/Account/Logoff" class="logoff">Sign Out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="main">
+        @RenderBody()
+    </div>
+
+    <footer class="footer" hidden>
+        <div class="section" id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="social">
+                            @*<a href="#" class="external facebook" data-animate-hover="pulse" data-animate="fadeInUp"><i class="fa fa-facebook"></i></a>
+                                <a href="#" class="external youtube" data-animate-hover="pulse" data-animate="fadeInUp"><i class="fa fa-youtube"></i></a>
+                                <a href="#" class="external twitter" data-animate-hover="pulse" data-animate="fadeInUp"><i class="fa fa-twitter"></i></a>*@
+                            <a href="mailto:support@bottlitix.com" class="email" data-animate-hover="pulse" data-animate="fadeInUp">
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                            <span style="font-size: 16px">&nbsp;Contact support</span>
+                        </p>
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="~/Content/Images/bottlitix-logo-bottom.png" alt="" data-animate="fadeInRight">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+

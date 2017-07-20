@@ -1,0 +1,357 @@
+﻿@model BTX.ReportViewer.EntityModel.Node
+@{
+    int report_count = 0;
+}
+
+
+<div class="reportGroupContainer hh @Model.CssClass">
+    <div style="padding-bottom: 25px"><h2 class="title animated fadeInDown">@Html.DisplayFor(m => Model.Name)</h2></div>
+    @foreach (var report in Model.Reports)
+    {
+        report_count += 1;
+        <div class="col-md-3 animated fadeInUp panel panel-default report-gb">
+            <div>
+                <div class="panel-body">
+                    <div class="panel-more1">
+                        @{
+                            string reportImagePath = report.ReportImageURL;
+                        }
+                        <img src="@Html.DisplayFor(m => reportImagePath)" />
+
+                    </div>
+                   
+                </div>
+
+
+
+                <div class="panel-info panel-body clearfix">
+                    <div>
+                        <h5 class="reportHeaderLink">
+                            <a class="reportLink" href="/reports/report?reportPath=@Html.DisplayFor(m => report.ReportPath)" target="_self"><b>@Html.DisplayFor(m => report.ReportName)</b></a>
+                        </h5>
+                    </div>
+                    <div>
+                        @*<div class="panel-body clearfix">*@
+                            <span class="descText">@Html.DisplayFor(m => report.ReportDescription)</span>
+                            @*<a id="viewButton" class="btn btn-primary btn-sm" href="/reports/report?reportPath=@Html.DisplayFor(m => report.ReportPath)" target="_self">View</a>*@
+                            <span id="exportButton" data-id="@report_count" class="open-ParameterDialog btn btn-primary btn-sm" onclick="exportModal(this)">Export</span>
+
+                        @*</div>*@
+                        <div id="@report_count" hidden>
+                            <span hidden>@Html.DisplayFor(m => report.ReportPath)</span>
+                            <span hidden>@Html.DisplayFor(m => report.ReportName)</span>
+                            @if (report.ReportParameters != null)
+                            {
+                                foreach (var parameter in report.ReportParameters.Where(x => x.ValidValues != null))
+                                {
+                                    if (parameter.Prompt != "")
+                                    {
+                                        <div>
+                                            <h5>@parameter.Prompt</h5><span hidden>@parameter.Nullable</span>
+                                            @if (parameter.MultiValue)
+                                            {
+                                                var defaults = parameter.DefaultValues;
+                                                if (defaults != null)
+                                                {
+                                                    @Html.ListBox(@parameter.Name, parameter.ValidValues.Select(x => new SelectListItem() { Text = x.Label, Value = x.Value, Selected = defaults.Contains(x.Value) }), new { @class = "form-control", @onchange = "GetDependencies()" })
+                                                }
+                                                else
+                                                {
+                                                    var valids = parameter.ValidValues;
+                                                    @Html.ListBox(@parameter.Name, parameter.ValidValues.Select(x => new SelectListItem()
+                                                   {
+                                                       Text = x.Label,
+                                                       Value = x.Value@*, Selected = (x.Value == valids[0].Value)*@ }), new { @class = "form-control", @onchange = "GetDependencies()" })
+                                                }
+                                            }
+                                            else
+                                            {
+                                                var defaults = parameter.DefaultValues;
+                                                if (defaults != null)
+                                                {
+                                                    @Html.DropDownList(@parameter.Name, parameter.ValidValues.Select(x => new SelectListItem() { Text = x.Label, Value = x.Value, Selected = defaults.Contains(x.Value) }), new { @class = "form-control", @onchange = "GetDependencies()" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownList(@parameter.Name, parameter.ValidValues.Select(x => new SelectListItem() { Text = x.Label, Value = x.Value }), String.Empty, new { @class = "form-control", @onchange = "GetDependencies()" })
+                                                }
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                }
+                                foreach (var parameter in report.ReportParameters.Where(x => x.ValidValues == null))
+                                {
+                                    if (parameter.Prompt != "")
+                                    {
+                                        var defaults = parameter.DefaultValues;
+                                        <div>
+                                            <h5>@parameter.Prompt</h5><span hidden>@parameter.Nullable</span>
+                                            @if (defaults != null)
+                                            {
+                                                var dependencies = parameter.Dependencies;
+                                                if (dependencies != null)
+                                                {
+                                                    //This is usually a paramter that requires dependencies
+                                                    var emptyList = new List<SelectListItem>();
+                                                    if (@parameter.MultiValue)
+                                                    {
+                                                        @Html.ListBox(@parameter.Name, emptyList, new { @readonly = "readonly", @class = "form-control" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownList(@parameter.Name, emptyList.Select(x => new SelectListItem() { Text = x.Text, Value = x.Value }), new { @readonly = "readonly", @class = "form-control" })
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBox(@parameter.Name, @parameter.DefaultValues.FirstOrDefault(), new { @class = "form-control" })
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBox(@parameter.Name, null, new { @class = "form-control" })
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                    <br />
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+                            }
+</div>
+
+<div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Select Parameters</h4>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="excelexport" class="btn btn-primary" onclick="exportExcel(this)">Export</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@foreach (var node in Model.Children)
+{
+    @Html.Partial("_ReportsDirectory", node)
+}
+
+
+<script>
+    var exportBtn = '#exportButton';
+
+    var exportModal = function (sender) {
+        $("#export").modal("show");
+        var myid = $(sender).data('id');
+        $(".modal-body #bookId").val(myid);
+        var parameters = '#' + myid;
+        $(parameters).clone().appendTo(".modal-body").show();
+    };
+    var reportName;
+
+    var exportExcel = function (sender) {
+
+        var selection = [];
+        var selection_group = '.modal.fade.in .modal-body > div';
+
+        var canAjax = true;
+
+        $(selection_group).children("div").each(function () {
+
+            var param = {};
+            var option = $(this).children("select");
+            var selected = {}
+            var nullable = $(this).children("span").text();
+
+            param.Label = $(this).children("h5").text();
+            param.Value = [];
+
+            if (option.length === 1) {
+                param.Name = option.attr("name");
+                selected = option.children("option").filter(":selected");
+                //console.log(option.val());
+                if ((!option.val() || option.val().length == 0) && nullable == "False") {
+                    canAjax = false;
+                }
+                selected.each(function (i, item) {
+                    param.Value[i] = $(item).val();
+                });
+            } else {
+                param.Name = $(this).children("input").attr("name");
+                selected = $(this).children("input").val();
+                //console.log(selected);
+                if (selected == "" && nullable == "False") {
+                    canAjax = false;
+                }
+                param.Value[0] = selected;
+            }
+
+            selection.push(param);
+        });
+
+        //selected value aggregation
+        //console.log(canAjax);
+        //console.log(selection);
+
+        var report = {};
+        report.ReportPath = $('.modal.fade.in .modal-body > div > span:first-child').text();
+        report.ReportName = $('.modal.fade.in .modal-body > div > span:nth-child(2)').text();
+        report.Parameters = selection;
+
+        reportName = report.ReportName;
+
+        report = JSON.stringify(report);
+
+        var actionUrl = '@Url.Action("GenerateExcelReport", "Reports")';
+        var getUrl = '@Url.Action("DownloadExcelReport", "Reports")';
+
+        //post the request using ajax and retrieve through url
+        //refer to http://geekswithblogs.net/rgupta/archive/2014/06/23/downloading-file-using-ajax-and-jquery-after-submitting-form-data.aspx
+        if (canAjax) {
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: actionUrl,
+                data: report,
+                success: function (result) {
+                    //removing toastr
+                    toastr.clear();
+                    if (result.success) {
+                        window.location = getUrl + "?fileName=" + result.fileName;
+                    } else {
+                        toastr.warning("Report Export Service is not available");
+                    }
+                },
+                failure: function (response) {
+                    toastr.clear();
+                    toastr.warning("Report Export Service is not available");
+                },
+                complete: function (response) {
+
+                }
+            });
+
+            //enabling toastr
+            toastr.options.timeOut = 0;
+            toastr.options.extendedTimeOut = 0;
+            toastr.options.positionClass = "toast-bottom-full-width";
+            toastr.info("Loading Excel Export - " + reportName + "...");
+
+            $("#export").modal("hide");
+
+        } else {
+            toastr.options.positionClass = "toast-bottom-full-width";
+            toastr.warning("Report paramters cannot be left blank");
+        }
+
+    };
+
+    var GetDependencies = function () {
+        //console.log("GetDependencies");
+        var selection_group = '.modal.fade.in .modal-body > div';
+        var parameters = [];
+        $(selection_group).children('div').each(function () {
+            var option = $(this).children("select");
+            if (option.length === 1) {
+                if (option.is('[readonly]')) {
+
+                } else {
+                    var selected = option.children("option").filter(":selected");
+                    //console.log(selected);
+                    var param = {};
+                    param.Name = option.attr('Name');
+                    param.Label = $(this).children("h5").text();
+                    param.Value = [];
+                    selected.each(function (i, item) {
+                        param.Value.push($(item).val());
+                    });
+                    parameters.push(param);
+                }
+            }
+        });
+        var actionUrl = '@Url.Action("GetDependentParameters", "Reports")';
+        var report = {};
+        report.ReportPath = $('.modal.fade.in .modal-body > div > span:first-child').text();
+        report.ReportName = $('.modal.fade.in .modal-body > div > span:nth-child(2)').text();
+        report.Parameters = parameters;
+
+        report = JSON.stringify(report);
+        //console.log(report);
+
+        $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: actionUrl,
+                data: report,
+                success: function (result) {
+                    //removing toastr
+                    toastr.clear();
+                    //console.log(result);
+
+                    $(selection_group).children('div').each(function () {
+                        var option = $(this).children("select");
+                        if (option.length === 1) {
+                            //if (option.is('[readonly]')) {
+                                $.each(result, function () {
+                                    if (option.attr("Name") == this.Name && this.ValidValues != null) {
+                                        option.removeAttr("readonly");
+                                        $.each(this.ValidValues, function (i, item) {
+                                            option.append($('<option>', {
+                                                value: item.Value,
+                                                text: item.Label
+                                            }))
+                                        });
+                                    }
+                                });
+                            //}
+                        }
+                    });
+                },
+                failure: function (response) {
+                    toastr.clear();
+                    toastr.warning("Report Export Service is not available");
+                },
+                complete: function (response) {
+
+                }
+            });
+    };
+
+    //clearing all modal body elements after dismissing the modal
+    $(function () {
+
+        $("#export").on('hidden.bs.modal', function () {
+            $('.modal-body').empty();
+        });
+
+    });
+
+</script>

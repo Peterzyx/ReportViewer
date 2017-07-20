@@ -1,0 +1,34 @@
+﻿
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "SubGridLayout.cshtml";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+<!-- NAVBAR -->
+<div id="wrap">
+    <header id="header" style="z-index:2">
+        <nav id="head-nav" class="navbar topnavbar navbar-fixed-top" role="navigation" data-spy="affix" data-offset-top="200">
+            <div>
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a href="#header" class="navbar-brand header"><img src="~/Content/Images/FWM_Logo - Copy.JPG" alt="" height="60"></a>
+                    <a class="navbar-name">
+                        <span lang="bookAnt">Henry</span>
+                        <span lang="lucindaCal">of</span>
+                        <span lang="bookAnt">&nbsp;Pelham</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="main">
+        @RenderBody()
+    </div>
+
+</div>
+

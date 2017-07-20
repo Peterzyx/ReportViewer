@@ -1,0 +1,64 @@
+﻿@model BTX.ReportViewer.Models.Login
+@{
+	ViewBag.Title = "Login";
+}
+
+<link href="~/Content/login.css" rel="stylesheet" type="text/css">
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+<!DOCTYPE html>
+<section id="loginform">
+	<div id="fullpage">
+		<div class="float" id="brandingwrapper">
+			<div id="branding" class="illustrationClass"></div>
+		</div>
+		<div class="float" id="contentwrapper">
+			@Html.Partial("ValidationSummary")
+			<div id="content">
+				<div id="header">
+					<img class="logoimage" alt="bottlitix" src="~/Content/Images/bottlitix_logo.png">
+				</div>
+				<div id="workarea">
+					<div class="groupmargin" id="autharea">
+						<section id="loginForm">
+							@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+							{
+								@Html.AntiForgeryToken()
+								<h4>Use a local account to log in:</h4>
+									<hr />
+									<div class="form-group">
+										<div class="col-md-10">
+											@Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "username", @autofocus = "autofocus" })
+											@Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+										</div>
+									</div>
+							    <div class="form-group">
+							        <div class="col-md-10">
+							            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "password" })
+							            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+							        </div>
+							    </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.RememberMe)&nbsp;<span style="vertical-align: middle">Keep me signed in</span>
+                                        @Html.ValidationMessageFor(model => model.RememberMe)
+                                    </div>
+                                </div>
+								<div class="form-group">
+									<div class="col-md-10">
+										<input type="submit" value="Log in" class="btn btn-success" />
+									</div>
+								</div>
+							}
+						</section>
+
+					</div>
+				</div>
+				<div id="footer_ph">&nbsp;</div>
+			</div>
+			<div id="footerplaceholder">
+				<span class="copyright">&copy;@DateTime.Now.Year - Bottlitix</span>
+			</div>
+		</div>
+	</div>
+</section>

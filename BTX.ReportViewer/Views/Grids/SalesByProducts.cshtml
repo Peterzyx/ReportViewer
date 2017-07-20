@@ -1,0 +1,60 @@
+﻿@model BTX.ReportViewer.ViewModels.GridsModel
+
+@{
+    if (ViewBag.HeaderOption == 1)
+    {
+        Layout = "~/Views/Shared/SubGridLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/MenuLayout.cshtml";
+    }
+    string period = Model.period;
+    int agentid = Model.agentid;
+    string agentname = Model.agentname;
+    string setnames = Model.setnames;
+    int brandid = Model.brandid;
+    string brandname = Model.brandname;
+    string unitsizes = Model.unitsizes;
+    decimal pricefrom = Model.pricefrom;
+    decimal priceto = Model.priceto;
+    int selectedgroupid = Model.selectedgroupid;
+}
+
+<input type="hidden" value="@period" id="SalesPeriod">
+<input type="hidden" value="@agentid" id="SalesAgentId">
+<input type="hidden" value="@agentname" id="SalesAgentName">
+<input type="hidden" value="@setnames" id="SalesSetNames">
+<input type="hidden" value="@brandid" id="SalesBrandId">
+<input type="hidden" value="@brandname" id="SalesBrandName">
+<input type="hidden" value="@unitsizes" id="SalesUnitSizes">
+<input type="hidden" value=@pricefrom id="SalesPriceFrom">
+<input type="hidden" value=@priceto id="SalesPriceTo">
+<input type="hidden" value=@selectedgroupid id="SalesSelectedGroupId">
+
+
+<div class="section" id="subGrid1">
+    <div class="col-md-12">
+
+        <div ng-controller="brandSalesCtrl" ng-cloak>
+            @*Filters Section*@
+            <h2 class="title" data-animate="fadeInDown" style="margin-top:10px; text-transform:none;">
+                Sales by Products - Brand @brandname - Agent @agentname
+            </h2>
+
+            @*Grid Body*@
+            <div class="custom-csv-link-location">
+                <span class="ui-grid-exporter-csv-link">&nbsp;</span>
+            </div>
+            <div id="grid1" style="height:700px" ui-grid="gridOptions" class="grid" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter>
+                <div class="well grid-loading" ng-hide="gridOptions.data.length && !loading">
+                    <span class="grid-loading-text">
+                        <i class="fa fa-spin fa-spinner"></i>
+                        <strong>Data Loading...</strong>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

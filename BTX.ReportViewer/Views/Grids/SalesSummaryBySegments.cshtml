@@ -1,0 +1,155 @@
+﻿
+
+<div ng-controller="salesSummaryBySegmentCtrl" ng-cloak>
+
+    @*Filters Section*@
+    <uib-accordion close-others="oneAtATime">
+        <div uib-accordion-group class="panel-default" is-open="status.open">
+            <uib-accordion-heading>
+                Select Grid Parameters <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+            </uib-accordion-heading>
+            <form id="grid1filters" style="margin-top: 10px; padding-right: 15px; padding-left:15px;">
+
+                <div class="form-group row">
+                    <h4><label class="col-sm-2 col-form-label">Promo Turn</label></h4>
+                    <span uib-dropdown on-toggle="toggled(open)">
+                        <button class="btn btn-default" href id="simple-dropdown" uib-dropdown-toggle>
+                            {{selectedperiodkey.label}}
+                            <span class="caret">
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown" style="max-height:400px; overflow:auto; margin-top:8px;">
+                            <li ng-repeat="choice in periodkeys">
+                                <a ng-click="periodkeydropboxitemselected(choice)">{{choice.label}}</a>
+                            </li>
+                        </ul>
+                    </span>
+                </div>
+
+                <div class="form-group row">
+                    <h4><label class="col-sm-2 col-form-label">Set Names</label></h4>
+                    <div ng-dropdown-multiselect="" buttonClasses="col-sm-10" options="setnamesdata" selected-model="setnamesmodel" checkboxes="true" extra-settings="dropdownsettings" events="Update">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <h4><label class="col-sm-2 col-form-label">Unit Sizes</label></h4>
+                    <div ng-dropdown-multiselect="" buttonClasses="col-sm-10" options="unitsizesdata" selected-model="unitsizesmodel" checkboxes="true" extra-settings="dropdownsettings">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <h4><label class="col-sm-2 col-form-label">Metric</label></h4>
+                    <span uib-dropdown on-toggle="toggled(open)">
+                        <button class="btn btn-default" href id="simple-dropdown" uib-dropdown-toggle>
+                            {{selectedgroup.label}}
+                            <span class="caret">
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown" style="max-height:400px; overflow:auto; margin-top:8px;">
+                            <li ng-repeat="choice in groups">
+                                <a ng-click="groupdropboxitemselected(choice)">{{choice.label}}</a>
+                            </li>
+                        </ul>
+                    </span>
+                </div>
+
+                <div class="form-group row">
+                    <h4><label for="pricefrom" class="col-md-2 control-label">Retail Price Between:</label></h4>
+                    <div class="col-md-2">
+                        <input type="number" name="input" ng-model="pricefrom.value" class="form-control"
+                               min="0" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+                    </div>
+                    <h4><label for="priceto" class="col-md-2 control-label" style="text-align:center;">and</label></h4>
+                    <div class="col-md-2">
+                        <input type="number" name="input" ng-model="priceto.value" class="form-control"
+                               min="0" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary" ng-click="Reload()">Refresh</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </uib-accordion>
+
+
+    @*Grid Color*@
+    <h3 style="margin-bottom:0px;">By Color - {{selectedperiodkey.label}}</h3>
+    <div class="custom-csv-link-location">
+        <span class="ui-grid-exporter-csv-link">&nbsp;</span>
+    </div>
+    <div id="grid1" ui-grid="gridColor" class="grid" style="height: {{gridColor.data.length*30 + 80}}px" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-auto-resize>
+        <div class="well grid-loading" ng-hide="!loading">
+            <span class="grid-loading-text">
+                <i class="fa fa-spin fa-spinner"></i>
+                <strong>Data Loading...</strong>
+            </span>
+        </div>
+    </div>
+
+    @*Grid Country*@
+    <h3 style="margin-bottom:0px;">By Country - {{selectedperiodkey.label}}</h3>
+    <div class="custom-csv-link-location">
+        <span class="ui-grid-exporter-csv-link">&nbsp;</span>
+    </div>
+    <div id="grid2" ui-grid="gridCountry" class="grid" style="height: {{gridCountry.data.length*30 + 80}}px" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-auto-resize>
+        <div class="well grid-loading" ng-hide="!loading">
+            <span class="grid-loading-text">
+                <i class="fa fa-spin fa-spinner"></i>
+                <strong>Data Loading...</strong>
+            </span>
+        </div>
+    </div>
+
+    @*Grid My Category*@
+    <h3 style="margin-bottom:0px;">By Category - {{selectedperiodkey.label}}</h3>
+    <div class="custom-csv-link-location">
+        <span class="ui-grid-exporter-csv-link">&nbsp;</span>
+    </div>
+    <div id="grid3" ui-grid="gridMyCategory" class="grid" style="height: {{gridMyCategory.data.length*30 + 90}}px" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-auto-resize>
+        <div class="well grid-loading" ng-hide="!loading">
+            <span class="grid-loading-text">
+                <i class="fa fa-spin fa-spinner"></i>
+                <strong>Data Loading...</strong>
+            </span>
+        </div>
+    </div>
+
+    @*Grid Price band*@
+    <h3 style="margin-bottom:0px;">By Price Band - {{selectedperiodkey.label}}</h3>
+    <div class="custom-csv-link-location">
+        <span class="ui-grid-exporter-csv-link">&nbsp;</span>
+    </div>
+    <div id="grid4" ui-grid="gridPriceBand" class="grid" style="height: {{gridPriceBand.data.length*30 + 90}}px" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-auto-resize>
+        <div class="well grid-loading" ng-hide="!loading">
+            <span class="grid-loading-text">
+                <i class="fa fa-spin fa-spinner"></i>
+                <strong>Data Loading...</strong>
+            </span>
+        </div>
+    </div>
+
+    @*Grid Varietal*@
+    <h3 style="margin-bottom:0px;">By Varietal - {{selectedperiodkey.label}}</h3>
+    <div class="custom-csv-link-location">
+        <span class="ui-grid-exporter-csv-link">&nbsp;</span>
+    </div>
+    <div id="grid5" ui-grid="gridVarietal" class="grid" style="height: {{gridVarietal.data.length*30 + 90}}px" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-auto-resize>
+        <div class="well grid-loading" ng-hide="!loading">
+            <span class="grid-loading-text">
+                <i class="fa fa-spin fa-spinner"></i>
+                <strong>Data Loading...</strong>
+            </span>
+        </div>
+    </div>
+</div>
+
+@*<input type="hidden" value="@Url.Action("SalesByBrands", "Grids")" id="SalesByBrandsUrl">*@
+
+<input type="hidden" value="@Url.Action("SalesSummaryColorCountry", "Grids")" id="SalesSummaryColorCountryUrl">
+<input type="hidden" value="@Url.Action("SalesSummaryCountryColor", "Grids")" id="SalesSummaryCountryColorUrl">
+<input type="hidden" value="@Url.Action("SalesSummaryVarietalProduct", "Grids")" id="SalesSummaryVarietalProductUrl">
+<input type="hidden" value="@Url.Action("SalesSummaryMyCategoryCountry", "Grids")" id="SalesSummaryMyCategoryCountryUrl">
+<input type="hidden" value="@Url.Action("SalesSummaryPriceBandCategory", "Grids")" id="SalesSummaryPriceBandCategoryUrl">

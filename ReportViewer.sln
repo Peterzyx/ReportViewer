@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTX.ReportViewer", "BTX.ReportViewer\BTX.ReportViewer.csproj", "{720AFFD4-BDC8-42C4-B620-AEDFC6378B24}"
+	ProjectSection(ProjectDependencies) = postProject
+		{10A16E75-D4FF-427D-90FD-5E5B02F29648} = {10A16E75-D4FF-427D-90FD-5E5B02F29648}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTX.ReportViewer.DapperAPI", "BTX.ReportViewer.DapperAPI\BTX.ReportViewer.DapperAPI.csproj", "{10A16E75-D4FF-427D-90FD-5E5B02F29648}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTX.ReportViewer.DataLayer", "BTX.ReportViewer.DataLayer\BTX.ReportViewer.DataLayer.csproj", "{EB25A6E9-2D55-46D9-839A-C29C06D81ED5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTX.ReportViewer.MdxClient", "BTX.ReportViewer.MdxClient\BTX.ReportViewer.MdxClient.csproj", "{41BC5AF2-C300-4D69-9BC9-27655522953A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTX.ReportViewer.Logging", "BTX.ReportViewer.Logging\BTX.ReportViewer.Logging.csproj", "{92749D34-D143-4517-A217-4E9555C31BAE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{720AFFD4-BDC8-42C4-B620-AEDFC6378B24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{720AFFD4-BDC8-42C4-B620-AEDFC6378B24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{720AFFD4-BDC8-42C4-B620-AEDFC6378B24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{720AFFD4-BDC8-42C4-B620-AEDFC6378B24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10A16E75-D4FF-427D-90FD-5E5B02F29648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10A16E75-D4FF-427D-90FD-5E5B02F29648}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10A16E75-D4FF-427D-90FD-5E5B02F29648}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10A16E75-D4FF-427D-90FD-5E5B02F29648}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB25A6E9-2D55-46D9-839A-C29C06D81ED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB25A6E9-2D55-46D9-839A-C29C06D81ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB25A6E9-2D55-46D9-839A-C29C06D81ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB25A6E9-2D55-46D9-839A-C29C06D81ED5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41BC5AF2-C300-4D69-9BC9-27655522953A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41BC5AF2-C300-4D69-9BC9-27655522953A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41BC5AF2-C300-4D69-9BC9-27655522953A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41BC5AF2-C300-4D69-9BC9-27655522953A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92749D34-D143-4517-A217-4E9555C31BAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92749D34-D143-4517-A217-4E9555C31BAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92749D34-D143-4517-A217-4E9555C31BAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92749D34-D143-4517-A217-4E9555C31BAE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

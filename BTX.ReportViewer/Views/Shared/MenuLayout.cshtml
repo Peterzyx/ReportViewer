@@ -1,0 +1,75 @@
+﻿@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "MenuLayout.cshtml";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+<!-- NAVBAR -->
+<div id="wrap">
+
+    <div id="fl_menu">
+        <div class="label"><i class="fa fa-th-list" aria-hidden="true">&nbsp;</i>MENU</div>
+        <div class="menu">
+            <a href="~/Grids?headeroption=2" class="menu_item"><i class="fa fa-home" aria-hidden="true" style="margin-right:15px"></i>Home</a>
+            <a href="~/Reports?headeroption=2" class="menu_item"><i class="fa fa-file-text-o" aria-hidden="true" style="margin-right:15px"></i>Reports</a>
+            <a href="~/Grids?headeroption=2" class="menu_item"><i class="fa fa-database" aria-hidden="true" style="margin-right:15px"></i>Grids</a>
+            <a href="~/Account/Logoff?returnUrl=Grids?headeroption=2" class="menu_item"><i class="fa fa-user-circle-o" aria-hidden="true" style="margin-right:15px"></i>Sign Out</a>
+        </div>
+    </div>
+
+    @RenderBody()
+
+</div>
+
+<script>
+    // floating menu
+
+    //config
+    $float_speed = 1500; //milliseconds
+    $float_easing = "easeOutQuint";
+    $menu_fade_speed = 500; //milliseconds
+    $closed_menu_opacity = 0.75;
+    $menu_fade_out_speed = 5000;
+
+    //cache vars
+    $fl_menu = $("#fl_menu");
+    $fl_menu_menu = $("#fl_menu .menu");
+    $fl_menu_label = $("#fl_menu .label");
+
+    $(window).scroll(function () {
+        FloatMenu();
+    });
+
+    function FloatMenu() {
+        var scrollAmount = $(document).scrollTop();
+        var newPosition = menuPosition + scrollAmount;
+        if ($(window).height() < $fl_menu.height() + $fl_menu_menu.height()) {
+            $fl_menu.css("top", menuPosition);
+        } else {
+            $fl_menu.stop().animate({ top: newPosition }, $float_speed, $float_easing);
+        }
+    }
+
+    //when loading
+    $(window).on('load', (function () {
+
+        //floating menu loading
+        menuPosition = $('#fl_menu').position().top;
+        FloatMenu();
+        $fl_menu.click(
+            function (e) {
+                e.stopPropagation();
+                $fl_menu_menu.slideToggle('fast');
+            }
+        );
+        $(document).click(
+            function () {
+                $fl_menu_menu.slideUp('fast');
+            }
+        );
+    }));
+
+</script>
+
+

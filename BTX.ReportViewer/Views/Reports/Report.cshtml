@@ -1,0 +1,86 @@
+﻿@using MvcReportViewer;
+@using BTX.ReportViewer.ReportService;
+@model BTX.ReportViewer.ViewModels.ReportsModel
+@{
+    ViewBag.Title = "Report";
+    if (ViewBag.HeaderOption == 1)
+    {
+        Layout = "~/Views/Shared/Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/MenuLayout.cshtml";
+    }
+    string path = Model.ReportPath;
+    ItemParameter[] parameters = ViewBag.ReportParameters;
+    string accountname = ViewBag.SamAccount;
+    string accountpassword = ViewBag.Password;
+}
+
+<!doctype html>
+<meta http-equiv="x-ua-compatible" content="IE=edge">
+
+<div class="section" id="section1">
+
+    <div class="loader"></div>
+    <div class="reportContainer">
+        @Html.MvcReportViewer(path, null, accountname, accountpassword, null, null, new { style = "border: none;min-weight:700px;min-width:100%;min-height:100%;" })
+        @*@Html.MvcReportViewer(path, "http://dsidsw935/Reportserver", "pzhao", "Develop2!", null, null, new { style = "border: none;min-weight:700px;min-width:100%;min-height:100%;" })*@
+        @*@Html.MvcReportViewer(path, new { style = "border: none;min-weight:700px;min-width:100%;min-height:100%;" })*@
+    </div>
+
+    <style type="text/css">
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('/Content/Images/loader.gif') 50% 50% no-repeat rgb(249,249,249);
+            opacity: .8;
+        }
+    </style>
+
+</div>
+
+<input type="hidden" value=@(ViewBag.HeaderOption) id="HeaderOption">
+
+<script type="text/javascript">
+
+
+    //var x = document.getElementById('iframe');
+    //var y = x.contentWindow.document;
+    //console.log(y);
+
+    //$('iframe').addEventListender("load", function () {
+    //    alert("done loading");
+    //    console.log(this.contentWindow.document);
+    //});
+
+    //when loading
+    $(window).on('load', (function () {
+
+        //check if AuthCookie expires
+        $(".loader").fadeOut("slow");
+
+        $('iframe').contents().on('click', 'input[type="submit"]', function (e) {
+            var self = $(this);
+            $.ajax({
+                type: "POST",
+                url: "/Account/ExpirationCheck/",
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response.responseText);
+                },
+                error: function (response) {
+                    console.log(response);
+                    window.location.href = '@Url.Action("Login", "Account")';//"/Account/Login";
+                }
+            });
+        });
+
+    }));
+
+
+</script>

@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "ValidationSummary";
+}
+
+@if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Count > 0)
+{
+	<div style="position: absolute; width: 100%" class="alert alert-warning" id="validation-alert">
+		@Html.ValidationSummary(true, "Errors: ")
+	</div>
+}
+@*<script type="text/javascript">
+	$("#validation-alert").fadeTo(2000, 500).slideUp(500, function () {
+		$("#validation-alert").slideUp(500);
+	});
+</script>*@

@@ -1,0 +1,52 @@
+﻿@model BTX.ReportViewer.ViewModels.GridsModel
+
+@{
+    if (ViewBag.HeaderOption == 1)
+    {
+        Layout = "~/Views/Shared/SubGridLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/MenuLayout.cshtml";
+    }
+    string period = Model.period;
+    string category = Model.category;
+    int isclientonly = Model.isclientonly;
+    string accountnumber = Model.accountnumber;
+    string accountname = Model.accountname;
+}
+
+<input type="hidden" value="@period" id="SalesPeriod">
+<input type="hidden" value="@category" id="SalesCategory">
+<input type="hidden" value="@isclientonly" id="IsClientOnly">
+<input type="hidden" value="@accountnumber" id="SalesAccountNumber">
+
+
+<div class="section" id="subGrid1">
+    <div class="col-md-12">
+
+        <div ng-controller="CategoryDetailsCtrl" ng-cloak>
+            @*Filters Section*@
+            <h2 class="title" data-animate="fadeInDown" style="margin-top:10px; text-transform:none;">
+                Sales Category Details for @category in @accountname - @period
+            </h2>
+
+            @*Grid Body*@
+            <div class="custom-csv-link-location">
+                <span class="ui-grid-exporter-csv-link">&nbsp;</span>
+            </div>
+            <div id="grid1" style="height:608px" ui-grid="grid" class="grid" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter>
+                <div class="well grid-loading" ng-hide="!loading">
+                    <span class="grid-loading-text">
+                        <i class="fa fa-spin fa-spinner"></i>
+                        <strong>Data Loading...</strong>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+

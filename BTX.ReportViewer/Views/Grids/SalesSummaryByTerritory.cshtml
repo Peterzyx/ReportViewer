@@ -1,0 +1,103 @@
+﻿
+
+
+<div ng-controller="salesSummaryCtrl" ng-cloak>
+    @*Filters Section*@
+    <uib-accordion close-others="oneAtATime">
+        <div uib-accordion-group class="panel-default" is-open="status.open">
+            <uib-accordion-heading>
+                Select Grid Parameters <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+            </uib-accordion-heading>
+
+            <form id="grid1filters" style="margin-top: 10px; padding-right: 15px; padding-left:15px;">
+
+                <div class="form-group row">
+                    <div class="col-md-8">
+                        <h4><label class="col-sm-2 col-form-label">Promo Turn</label></h4>
+                        <span uib-dropdown on-toggle="toggled(open)">
+                            <button class="btn btn-default" href id="simple-dropdown" uib-dropdown-toggle>
+                                {{selectedperiodkey.label}}
+                                <span class="caret">
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown" style="max-height:400px; overflow:auto; margin-top:8px;">
+                                <li ng-repeat="choice in periodkeys">
+                                    <a ng-click="periodkeydropboxitemselected(choice)">{{choice.label}}</a>
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-8">
+                        <h4><label class="col-md-2 col-form-label">Metric</label></h4>
+                        <span uib-dropdown on-toggle="toggled(open)">
+                            <button class="btn btn-default" href id="simple-dropdown" uib-dropdown-toggle>
+                                {{selectedgroup.label}}
+                                <span class="caret">
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown" style="max-height:400px; overflow:auto; margin-top:8px;">
+                                <li ng-repeat="choice in groups">
+                                    <a ng-click="groupdropboxitemselected(choice)">{{choice.label}}</a>
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary" ng-click="Reload()">Refresh</button>
+                    </div>
+                </div>
+
+                
+            </form>
+        </div>
+    </uib-accordion>
+
+            
+    @*Grid Body*@
+    <h3 style="margin-bottom:0px;">All Accounts, Promo Turn - {{selectedperiodkey.label}}</h3>
+    <div class="custom-csv-link-location">
+        <span class="ui-grid-exporter-csv-link">&nbsp;</span>
+    </div>
+    <div id="grid3" style="height:262px" ui-grid="gridOptions3" class="grid" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-grouping ui-grid-auto-resize>
+        <div class="well grid-loading" ng-hide="!loading1">
+            <span class="grid-loading-text">
+                <i class="fa fa-spin fa-spinner"></i>
+                <strong>Data Loading...</strong>
+            </span>
+        </div>
+    </div>
+
+    <h3 style="margin-bottom:0px;">Store, Promo Turn - {{selectedperiodkey.label}}</h3>
+    <div class="custom-csv-link-location">
+        <span class="ui-grid-exporter-csv-link">&nbsp;</span>
+    </div>
+    <div id="grid1" style="height:262px" ui-grid="gridOptions1" class="grid" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-grouping ui-grid-auto-resize>
+        <div class="well grid-loading" ng-hide="!loading1">
+            <span class="grid-loading-text">
+                <i class="fa fa-spin fa-spinner"></i>
+                <strong>Data Loading...</strong>
+            </span>
+        </div>
+    </div>
+
+    <h3 style="margin-bottom:0px;">Licensee, Promo Turn - {{selectedperiodkey.label}}</h3>
+    <div class="custom-csv-link-location">
+        <span class="ui-grid-exporter-csv-link">&nbsp;</span>
+    </div>
+    <div id="grid2" style="height:262px" ui-grid="gridOptions2" class="grid" ui-grid-pinning ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-grouping ui-grid-auto-resize>
+        <div class="well grid-loading" ng-hide="!loading2">
+            <span class="grid-loading-text">
+                <i class="fa fa-spin fa-spinner"></i>
+                <strong>Data Loading...</strong>
+            </span>
+        </div>
+    </div>
+
+</div>
+
+<input type="hidden" value="@Url.Action("SalesTeamStoreLicensee", "Grids")" id="SalesTeamStoreLicenseeUrl">
+
+

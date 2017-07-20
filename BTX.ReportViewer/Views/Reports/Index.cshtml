@@ -1,0 +1,73 @@
+﻿@model BTX.ReportViewer.ViewModels.ReportsModel
+
+@{
+    ViewBag.Title = "Index";
+    if (ViewBag.HeaderOption == 1)
+    {
+        Layout = "~/Views/Shared/Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/MenuLayout.cshtml";
+    }
+    string name = Model.CurrentUserFirstName + " " + Model.CurrentUserSurName;
+}
+
+<div class="section" id="section1">
+    <!--HEADER PANEL-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-md-offset-1">
+                <div class="reportTreeDirectory">
+                    <div class="titleContainer">
+                        <h2 class="title">Directory</h2>
+                    </div>
+                    @Html.Partial("_ReportsFolderTree", Model.ReportDirectoryHierarchy)
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row services">
+                    <div id="rptWrapper" class="reportWrapper opacity segoe">
+                        @Html.Partial("_ReportsDirectory", Model.ReportDirectoryHierarchy)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value=@(ViewBag.HeaderOption) id="HeaderOption">
+
+<script>
+    var rptWrapper = '#viewButton';
+    var rptContainer = '.panel .panel-body';
+    var rptLink = '.reportHeaderLink';
+    $(function () {
+        $(rptWrapper).on('click', function (i) {
+            var url = $(rptContainer).find(rptLink).find('a').prop('href');
+
+            var headeroption = parseInt(document.getElementById('HeaderOption').value);
+            if (headeroption === 2) {
+                url = url + "&headeroption=2";
+            }
+
+            var win = window.open(url, '_self', false);
+            i.preventDefault();
+            i.stopPropagation();
+        });
+
+        //display the directory content (excluding folders)
+        $(".reportTreeDirectory li[data-class]").on("click", function (e) {
+            if ($(this).data("class")) {
+                var groupContainer = $(".reportGroupContainer." + $(this).data("class"));
+                $(".reportGroupContainer").hide();
+                $(".reportTreeDirectory li[data-class]").removeClass("selected");
+                $(this).addClass("selected");
+                groupContainer.show();
+            }
+        });
+        //initialize selected folder
+        $(".reportTreeDirectory li:first > span.foldertitle").click();
+    });
+
+</script>

@@ -1,0 +1,41 @@
+﻿@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "_BaseLayout.cshtml";
+    string currentUserInfo = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bottlitix ~&nbsp;@System.Configuration.ConfigurationManager.AppSettings["CompanyHeader"]&nbsp;Reports</title>
+
+    <!-- Bundle packages -->
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/angular")
+
+    @Scripts.Render("~/bundles/angular/Grid")
+    @Styles.Render("~/Content/angular/Grid/css")
+
+    @Scripts.Render("~/bundles/jquery/toastr")
+    @Styles.Render("~/Content/jquery/toastr")
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    
+    <div ng-app="myApp">
+        <input type="hidden" value="@currentUserInfo" id="currentUserInfo">
+        @RenderBody()
+    </div>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>*@
+    @RenderSection("scripts", required: false)
+
+</body>
+
+</html>
+

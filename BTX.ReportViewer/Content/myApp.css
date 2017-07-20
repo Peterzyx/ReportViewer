@@ -1,0 +1,161 @@
+﻿
+/*cursor loading class*/
+.waiting { 
+    cursor: wait;
+}
+
+/*grid loading banner*/
+.grid-loading {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 1.5em;
+    display: table;
+}
+
+.grid-loading-text {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/*overall grid config*/
+#sectionGrids {
+    height: 824px;
+}
+
+.grid {
+    border: none;
+    height: 100%;
+}
+
+/*hiding horizontal scrollbar*/
+#sectionGrids {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#subGrid1 {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/*ui grid config*/
+#grid1 .ui-grid-cell-contents.ng-binding.ng-scope {
+    text-align: right;
+}
+
+#grid1 a{
+    color: #555555;
+}
+
+#grid2 .ui-grid-cell-contents.ng-binding.ng-scope {
+    text-align: right;
+}
+
+#grid2 a{
+    color: #555555;
+}
+
+#grid3 a {
+    color: #555555;
+}
+
+#grid4 a {
+    color: #555555;
+}
+
+#grid5 a {
+    color: #555555;
+}
+
+#grid3 .ui-grid-cell-contents.ng-binding.ng-scope {
+    text-align: right;
+}
+
+#grid4 .ui-grid-cell-contents.ng-binding.ng-scope {
+    text-align: right;
+}
+
+#grid5 .ui-grid-cell-contents.ng-binding.ng-scope {
+    text-align: right;
+}
+
+/*dropdown filters*/
+#grid1filters .dropdown-toggle.ng-binding.btn.btn-default {
+    min-width: 800px;
+    border-radius: 4px;
+    text-transform: none;
+}
+#grid1filters .dropdown-menu.dropdown-menu-form.ng-scope {
+    min-width: 800px;
+    margin-top: 0px;
+}
+
+#grid1filters .dropdown-menu {
+    min-width: 800px;
+    margin-top: 0px;
+}
+
+#grid1filters .btn.btn-primary {
+    text-transform: initial;
+    color: #fff;
+    background-color: #1d81cf;
+    border-color: #1d81cf;
+    border-radius: 4px;
+}
+
+/*nav tabs config*/
+#navtabs a {
+    color: #555555;
+    cursor: pointer;
+}
+
+#navtabs .dropdown-menu>.active>a {
+    color: white;
+}
+
+/*dropdown config*/
+div.panel-group {
+    margin-bottom: 10px;
+}
+
+.ui-select-container.ui-select-bootstrap {
+    overflow: auto;
+    min-height: 30px;
+    max-height: 60px;
+}
+
+input.form-control {
+    border-radius: 4px;
+}
+
+/*Sales Personal nav tab*/
+#navtabs .active > a {
+    color: #555555;
+    background-color: white;
+}
+
+/*Row Collapse Control*/
+.ui-grid-icon-plus-squared {
+    cursor: pointer;
+}
+
+.ui-grid-icon-minus-squared {
+    cursor: pointer;
+}
+
+/*Landing Page*/
+#landingpage .input-group {
+    width: 600px;
+    /*margin: 0 auto;*/
+}
+
+/*Column Header in Licensee Detail Page*/
+.ui-grid-category {
+    text-align: center;
+    border-right: 0px;
+    box-shadow: -1px 1px #d4d4d4
+}
