@@ -8,57 +8,33 @@ namespace BTX.ReportViewer.DataLayer
 {
     public interface IGridsRepository
     {
-        //Employee GetSingleEmployee(int id);
-
-        List<MarketReportBE> GetTop50Sales(string periodkey, string setname, string unitsize, decimal pricefrom, decimal priceto);
-
         List<MarketReportBE> GetTop50SalesCube(string periodkey, string setnames, string unitsizes, decimal pricefrom, decimal priceto);
-
-        List<MarketReportBE> GetSalesByBrands(string periodkey, int agentid, string setname, string unitsize, decimal pricefrom, decimal priceto);
 
         List<MarketReportBE> GetSalesByAgentsCube(string periodkey, string agentname, string setnames, string unitsizes, decimal pricefrom, decimal priceto);
 
-        List<MarketReportBE> GetSalesByProducts(string periodkey, int agentid, string setname, int brandid, string unitsize, decimal pricefrom, decimal priceto);
-
         List<MarketReportBE> GetSalesByProductsCube(string periodkey, string agentname, string brandname, string setnames, string unitsizes, decimal pricefrom, decimal priceto);
-
-        List<SalesTeamReportBE> GetSalesTeamSummaryStore(string periodkey);
 
         List<SalesTeamReportBE> GetSalesTeamSummaryAllCube(string periodkey);
 
         List<SalesTeamReportBE> GetSalesTeamSummaryStoreCube(string periodkey);
 
-        List<SalesTeamReportBE> GetSalesTeamSummaryLicensee(string periodkey);
-
         List<SalesTeamReportBE> GetSalesTeamSummaryLicenseeCube(string periodkey);
 
-        List<SalesTeamReportBE> GetSalesSummaryStoreByTerritory(int userid, string periodkey, int sortgroup);
-
         List<SalesTeamReportBE> GetSalesSummaryStoreByTerritoryCube(int userid, string periodkey, int sortgroup);
-
-        List<SalesTeamReportBE> GetSalesSummaryLicenseeByTerritory(int userid, string periodkey, int sortgroup);
 
         List<SalesTeamReportBE> GetSalesSummaryLicenseeByTerritoryCube(int userid, string periodkey, int sortgroup);
 
         List<SalesTeamReportBE> GetSalesSummaryAllByTerritoryCube(int userid, string periodkey, int sortgroup);
 
-        List<SalesPersonalReportBE> GetSalesTeamStoreProduct(int userid, string periodkey, string accountnumber);
-
-        List<SalesPersonalReportBE> GetSalesTeamStoreProductCube(int userid, string periodkey, string accountnumber);
-
-        List<SalesPersonalReportBE> GetSalesTeamStoreCategory(int userid, string periodkey, string accountnumber, int clientonly);
+        List<SalesPersonalReportBE> GetSalesTeamStoreProductCube(int userid, string periodkey, string accountnumber, int clientonly);
 
         List<SalesPersonalReportBE> GetSalesTeamStoreCategoryCube(int userid, string periodkey, string accountnumber, int clientonly);
-
-        List<SalesPersonalReportBE> GetSalesTeamProductsNotInStore(int userid, string periodkey, string accountnumber);
 
         List<SalesPersonalReportBE> GetSalesTeamProductsNotInStoreCube(int userid, string periodkey, string accountnumber);
 
         List<SalesPersonalReportBE> GetSalesCategoryDetails(string periodkey, string accountnumber, string category, int isclientonly);
 
         List<LicenseeDetailsBE> GetLicenseeDetails(string periodkey, string accountname);
-
-        List<MarketReportBE> GetMarketSalesBySetCode(int userid, string periodkey, string setname, string unitsize, decimal pricefrom, decimal priceto);
 
         List<SearchBE> GetSearch();
 
@@ -83,11 +59,13 @@ namespace BTX.ReportViewer.DataLayer
         List<SalesSummarySegmentBE> GetSalesSummaryByColorCountryProductDetailCube(string periodkey, string setnames, string unitsizes, decimal pricefrom, decimal priceto, int groupid, string color, string country, string category);
 
         List<SalesSummarySegmentBE> GetSalesSummaryByCountryColorDetailCube(string periodkey, string setnames, string unitsizes, decimal pricefrom, decimal priceto, int groupid, string country, string category);
+
         List<SalesSummarySegmentBE> GetSalesSummaryByCountryColorProductDetailCube(string periodkey, string setnames, string unitsizes, decimal pricefrom, decimal priceto, int groupid, string country, string color, string category);
 
         List<SalesSummarySegmentBE> GetSalesSummaryByVarietalProductDetailCube(string periodkey, string setnames, string unitsizes, decimal pricefrom, decimal priceto, int groupid, string varietal, string category);
 
         List<SalesSummarySegmentBE> GetSalesSummaryByMyCategoryCountryDetailCube(string periodkey, string setnames, string unitsizes, decimal pricefrom, decimal priceto, int groupid, string colormycategory, string category);
+
         List<SalesSummarySegmentBE> GetSalesSummaryByMyCategoryCountryProductDetailCube(string periodkey, string setnames, string unitsizes, decimal pricefrom, decimal priceto, int groupid, string color, string country, string category);
 
         List<SalesSummarySegmentBE> GetSalesSummaryByPriceBandCube(string periodkey, string setnames, string unitsizes, decimal pricefrom, decimal priceto, int groupid);

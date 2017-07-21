@@ -27,17 +27,6 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         private int _client = int.Parse(ConfigurationManager.AppSettings["CompanyClientId"]);
         
         #region Top 50 Sales
-        public List<MarketReportBE> GetTop50Sales(string periodkey, string setname, string unitsize, decimal pricefrom, decimal priceto)
-        {
-            return this.db_pelham.Query<MarketReportBE>(@"EXEC [lcbo].[RPT_Top50Agents] '" +
-            periodkey.ToString() + "', '" +
-            setname.ToString() + "', '" +
-            unitsize.ToString() + "', " +
-            pricefrom.ToString() + ", " +
-            priceto.ToString()
-            ).ToList();
-        }
-
         public List<MarketReportBE> GetTop50SalesCube(string periodkey, string setnames, string unitsizes, decimal pricefrom, decimal priceto)
         {
             var connection = GetSSASConnection();
@@ -111,18 +100,6 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         #endregion
 
         #region Sales by Brands
-        public List<MarketReportBE> GetSalesByBrands(string periodkey, int agentid, string setname, string unitsize, decimal pricefrom, decimal priceto)
-        {
-            return this.db_pelham.Query<MarketReportBE>(@"EXEC [lcbo].[RPT_BrandsByAgent] '" +
-            periodkey.ToString() + "', " +
-            agentid + ", '" +
-            setname.ToString() + "', '" +
-            unitsize.ToString() + "', " +
-            pricefrom.ToString() + ", " +
-            priceto.ToString()
-            ).ToList();
-        }
-
         public List<MarketReportBE> GetSalesByAgentsCube(string periodkey, string agentname, string setnames, string unitsizes, decimal pricefrom, decimal priceto)
         {
             var connection = GetSSASConnection();
@@ -200,19 +177,6 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         #endregion
 
         #region Sales by Products
-        public List<MarketReportBE> GetSalesByProducts(string periodkey, int agentid, string setname, int brandid, string unitsize, decimal pricefrom, decimal priceto)
-        {
-            return this.db_pelham.Query<MarketReportBE>(@"EXEC [lcbo].[RPT_ProductsByBrandsByAgent] '" +
-            periodkey.ToString() + "', " +
-            agentid + ", '" +
-            setname.ToString() + "', " +
-            brandid + ", '" +
-            unitsize.ToString() + "', " +
-            pricefrom.ToString() + ", " +
-            priceto.ToString()
-            ).ToList();
-        }
-
         public List<MarketReportBE> GetSalesByProductsCube(string periodkey, string agentname, string brandname, string setnames, string unitsizes, decimal pricefrom, decimal priceto)
         {
             var connection = GetSSASConnection();
@@ -343,11 +307,6 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         #endregion
 
         #region Sales Summary for Store
-        public List<SalesTeamReportBE> GetSalesTeamSummaryStore(string periodkey)
-        {
-            return this.db_pelham.Query<SalesTeamReportBE>(@"EXEC [lcbo].[RPT_SalesTeamSummaryStore] " + _client + ", '" + periodkey + "'").ToList();
-        }
-
         public List<SalesTeamReportBE> GetSalesTeamSummaryStoreCube(string periodkey)
         {
             var connection = GetSSASConnection();
@@ -395,11 +354,6 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         #endregion
 
         #region Sales Summary for Licensee
-        public List<SalesTeamReportBE> GetSalesTeamSummaryLicensee(string periodkey)
-        {
-            return this.db_pelham.Query<SalesTeamReportBE>(@"EXEC [lcbo].[RPT_SalesTeamSummaryLicensee] " + _client + ", '" + periodkey + "'").ToList();
-        }
-
         public List<SalesTeamReportBE> GetSalesTeamSummaryLicenseeCube(string periodkey)
         {
             var connection = GetSSASConnection();
@@ -447,25 +401,6 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         #endregion
 
         #region Sales Summary for Store by Territory
-        public List<SalesTeamReportBE> GetSalesSummaryStoreByTerritory(int userid, string periodkey, int sortgroup)
-        {
-            var sales = this.db_pelham.Query<SalesTeamReportBE>(@"EXEC [lcbo].[RPT_SalesSummaryStoreByTerritory] " + _client + ", " + userid + ", '" + periodkey + "'").ToList();
-            List<SalesTeamReportBE> sortedsales = null; ;
-            if (sortgroup == 0)
-            {
-                sortedsales = sales.OrderBy(x => x.Rank_9LEquivalentCases).ToList();
-            }
-            else if (sortgroup == 1)
-            {
-                sortedsales = sales.OrderBy(x => x.Rank_SalesAmount).ToList();
-            }
-            else
-            {
-                sortedsales = sales.OrderBy(x => x.Rank_Units).ToList();
-            }
-            return sortedsales;
-        }
-
         public List<SalesTeamReportBE> GetSalesSummaryStoreByTerritoryCube(int userid, string periodkey, int sortgroup)
         {
             var connection = GetSSASConnection();
@@ -549,25 +484,6 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         #endregion
 
         #region Sales Summary for Licensee by Territory
-        public List<SalesTeamReportBE> GetSalesSummaryLicenseeByTerritory(int userid, string periodkey, int sortgroup)
-        {
-            var sales = this.db_pelham.Query<SalesTeamReportBE>(@"EXEC [lcbo].[RPT_SalesSummaryLicenseeByTerritory] " + _client + ", " + userid + ", '" + periodkey + "'").ToList();
-            List<SalesTeamReportBE> sortedsales = null;
-            if (sortgroup == 0)
-            {
-                sortedsales = sales.OrderBy(x => x.Tot_Rank_9LEquivalentCases).ToList();
-            }
-            else if (sortgroup == 1)
-            {
-                sortedsales = sales.OrderBy(x => x.Tot_Rank_SalesAmount).ToList();
-            }
-            else
-            {
-                sortedsales = sales.OrderBy(x => x.Tot_Rank_Units).ToList();
-            }
-            return sortedsales;
-        }
-
         public List<SalesTeamReportBE> GetSalesSummaryLicenseeByTerritoryCube(int userid, string periodkey, int sortgroup)
         {
             var connection = GetSSASConnection();
@@ -774,12 +690,7 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         #endregion
 
         #region Product Sales for Store
-        public List<SalesPersonalReportBE> GetSalesTeamStoreProduct(int userid, string periodkey, string accountnumber)
-        {
-            return this.db_pelham.Query<SalesPersonalReportBE>(@"EXEC [lcbo].[RPT_SalesSummaryProductByTerritoryByStore] " + _client + @", " + userid + @", '" + periodkey + @"', '" + accountnumber + @"'").ToList();
-        }
-
-        public List<SalesPersonalReportBE> GetSalesTeamStoreProductCube(int userid, string periodkey, string accountnumber)
+        public List<SalesPersonalReportBE> GetSalesTeamStoreProductCube(int userid, string periodkey, string accountnumber, int clientonly)
         {
             var connection = GetSSASConnection();
             using (connection)
@@ -797,6 +708,14 @@ namespace BTX.ReportViewer.DataLayer.Dapper
                 parms.Add("@Period", "[Date].[Promotional Period].&[" + result[0] + "]&[" + result[1] + "]");
                 parms.Add("@UserId", "[Sales Rep].[Sales Rep].&[" + userid + "]");
                 parms.Add("@AccountNumber", "[Account].[Account Number].[Account Number].&[" + accountnumber + "]");
+                if (clientonly == 1)
+                {
+                    parms.Add("@ClientOnly", "[Product].[Is Own].&[1]");
+                }
+                else
+                {
+                    parms.Add("@ClientOnly", "[Product].[Is Own].&[0], [Product].[Is Market].&[1]");
+                }
 
                 //Obejct Row Mapping
                 parms.Add("~0", "Code", DbType.String);
@@ -904,14 +823,6 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         #endregion
 
         #region Category Sales for Store
-        public List<SalesPersonalReportBE> GetSalesTeamStoreCategory(int userid, string periodkey, string accountnumber, int clientonly)
-        {
-            var category = this.db_pelham.Query<SalesPersonalReportBE>(@"EXEC [lcbo].[RPT_SalesSummarySetCodeByTerritoryByStore] " + _client + ", " + userid + ", '" + periodkey + "', '" + accountnumber + "', " + clientonly).ToList();
-            var categorydetail = this.db_pelham.Query<CategoryProductDetailsBE>(@"EXEC [lcbo].[RPT_SalesSummarySetCodeProductByTerritoryByStore] " + _client + ", " + userid + ", '" + periodkey + "', '" + accountnumber + "', " + clientonly).ToList();
-            //category.ForEach(x => x.Details = categorydetail.Where(j => j.SetCode == x.SetCode).ToList());
-            return category;
-        }
-
         public List<SalesPersonalReportBE> GetSalesTeamStoreCategoryCube (int userid, string periodkey, string accountnumber, int clientonly)
         {
             var connection = GetSSASConnection();
@@ -975,11 +886,6 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         #endregion
 
         #region Product Sales Not In Store
-        public List<SalesPersonalReportBE> GetSalesTeamProductsNotInStore(int userid, string periodkey, string accountnumber)
-        {
-            return this.db_pelham.Query<SalesPersonalReportBE>(@"EXEC [lcbo].[RPT_SalesTeamProductsNotInStore] " + _client + ", " + userid + ", '" + periodkey + "', '" + accountnumber + "'").ToList();
-        }
-
         public List<SalesPersonalReportBE> GetSalesTeamProductsNotInStoreCube(int userid, string periodkey, string accountnumber)
         {
             var connection = GetSSASConnection();
@@ -1191,20 +1097,6 @@ namespace BTX.ReportViewer.DataLayer.Dapper
                 LoggingHelper.LogInformation("Returning result from mdx query...");
                 return licenseedetails;
             }
-        }
-        #endregion
-
-        #region Market Sales
-        public List<MarketReportBE> GetMarketSalesBySetCode(int userid, string periodkey, string setname, string unitsize, decimal pricefrom, decimal priceto)
-        {
-            return this.db_pelham.Query<MarketReportBE>(@"EXEC [lcbo].[RPT_MarketSalesBySetCode] " + _client + ", " +
-            32 + ", '" +
-            periodkey.ToString() + "', '" +
-            setname.ToString() + "', '" +
-            unitsize.ToString() + "', " +
-            pricefrom.ToString() + ", " +
-            priceto.ToString()
-            ).ToList();
         }
         #endregion
 
@@ -1762,7 +1654,7 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         }
         #endregion
 
-        #region Sales Summary by varietal
+        #region Sales Summary by Varietal
         public List<SalesSummarySegmentBE> GetSalesSummaryByVarietalCube(string periodkey, string setnames, string unitsizes, decimal pricefrom, decimal priceto, int groupid)
         {
             var connection = GetSSASConnection();
@@ -3116,6 +3008,7 @@ namespace BTX.ReportViewer.DataLayer.Dapper
         }
         #endregion
 
+        #region Helper Function
         private string PriceBandToAscii(string priceband)
         {
             string pricebandascii = string.Empty;
@@ -3138,5 +3031,6 @@ namespace BTX.ReportViewer.DataLayer.Dapper
 
             return pricebandascii;
         }
+        #endregion
     }
 }

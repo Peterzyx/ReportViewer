@@ -423,6 +423,7 @@ namespace BTX.ReportViewer.DapperAPI.Controllers
             int userid = 0;
             string periodkey = string.Empty;
             string accountnumber = string.Empty;
+            int clientonly = 0;
 
             if (Request.Headers.TryGetValues("X-UserId", out headerValues))
             {
@@ -436,11 +437,14 @@ namespace BTX.ReportViewer.DapperAPI.Controllers
             {
                 accountnumber = headerValues.FirstOrDefault();
             }
-
+            if (Request.Headers.TryGetValues("X-ClientOnly", out headerValues))
+            {
+                int.TryParse(headerValues.FirstOrDefault(), out clientonly);
+            }
             try
             {
                 LoggingHelper.LogInformation(String.Format("Retrieving store product sales with period = {0}, user id = {1} and account = {2}...", periodkey, userid, accountnumber));
-                return repository.GetSalesTeamStoreProductCube(userid, periodkey, accountnumber);
+                return repository.GetSalesTeamStoreProductCube(userid, periodkey, accountnumber, clientonly);
             }
             catch (SqlException ex)
             {
@@ -620,67 +624,6 @@ namespace BTX.ReportViewer.DapperAPI.Controllers
             catch (Exception ex)
             {
                 LoggingHelper.LogError(String.Format("Unable to get sales of products not in licensee for account = {0} from database.", accountname), ex);
-                throw;
-            }
-        }
-        #endregion
-
-        #region Market Sales
-        [Route("MarketSalesBySetCode")]
-        [HttpGet]
-        public List<MarketReportBE> GetMarketSalesBySetCode()
-        {
-            IEnumerable<string> headerValues;
-            int userid = 0;
-            string periodkey = string.Empty;
-            string setnames = string.Empty;
-            string unitsizes = string.Empty;
-            decimal pricefrom = 0m;
-            decimal priceto = 0m;
-
-            if (Request.Headers.TryGetValues("X-UserId", out headerValues))
-            {
-                int.TryParse(headerValues.FirstOrDefault(), out userid);
-            }
-
-            if (Request.Headers.TryGetValues("X-PeriodKey", out headerValues))
-            {
-                periodkey = headerValues.FirstOrDefault();
-            }
-
-            if (Request.Headers.TryGetValues("X-SetNames", out headerValues))
-            {
-                setnames = headerValues.FirstOrDefault();
-            }
-
-            if (Request.Headers.TryGetValues("X-UnitSizes", out headerValues))
-            {
-                unitsizes = headerValues.FirstOrDefault();
-            }
-
-            if (Request.Headers.TryGetValues("X-PriceFrom", out headerValues))
-            {
-                Decimal.TryParse(headerValues.FirstOrDefault(), out pricefrom);
-            }
-
-            if (Request.Headers.TryGetValues("X-PriceTo", out headerValues))
-            {
-                Decimal.TryParse(headerValues.FirstOrDefault(), out priceto);
-            }
-
-            try
-            {
-                LoggingHelper.LogInformation(String.Format("Retrieving market sales with period = {0}, user id = {1} and setnames = {2}...", periodkey, userid, setnames));
-                return repository.GetMarketSalesBySetCode(userid, periodkey, setnames, unitsizes, pricefrom, priceto);
-            }
-            catch (SqlException ex)
-            {
-                LoggingHelper.LogException(String.Format("Unable to connect to get market sales for user id = {0} from database.", userid), ex);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                LoggingHelper.LogError(String.Format("Unable to connect to get market sales for user id = {0} from database.", userid), ex);
                 throw;
             }
         }

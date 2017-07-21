@@ -3054,9 +3054,10 @@ namespace BTX.ReportViewer.DataLayer.DapperHelper
                         (
                         [Account].[Channel].&[OFF TRADE]
                         , @Period
-                        , [Product].[Is Own].&[1] -- Pelham Only
+                       // , [Product].[Is Own].&[1] -- Pelham Only
                         //, @UserId -- parameter from prev.page
                         , @AccountNumber -- parameter from prev.page
+                        ,@ClientOnly
                         )
 
         ";
