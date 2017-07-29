@@ -31,12 +31,12 @@
                         </h5>
                     </div>
                     <div>
-                        @*<div class="panel-body clearfix">*@
-                            <span class="descText">@Html.DisplayFor(m => report.ReportDescription)</span>
+                       <div class="descfooter">
+                            <span class="descText">@Html.DisplayFor(m => report.ReportDescription)</span><br/>
                             @*<a id="viewButton" class="btn btn-primary btn-sm" href="/reports/report?reportPath=@Html.DisplayFor(m => report.ReportPath)" target="_self">View</a>*@
                             <span id="exportButton" data-id="@report_count" class="open-ParameterDialog btn btn-primary btn-sm" onclick="exportModal(this)">Export</span>
-
-                        @*</div>*@
+                        </div>
+                       
                         <div id="@report_count" hidden>
                             <span hidden>@Html.DisplayFor(m => report.ReportPath)</span>
                             <span hidden>@Html.DisplayFor(m => report.ReportName)</span>
@@ -195,7 +195,6 @@
             if (option.length === 1) {
                 param.Name = option.attr("name");
                 selected = option.children("option").filter(":selected");
-                //console.log(option.val());
                 if ((!option.val() || option.val().length == 0) && nullable == "False") {
                     canAjax = false;
                 }
@@ -205,7 +204,6 @@
             } else {
                 param.Name = $(this).children("input").attr("name");
                 selected = $(this).children("input").val();
-                //console.log(selected);
                 if (selected == "" && nullable == "False") {
                     canAjax = false;
                 }
@@ -214,10 +212,6 @@
 
             selection.push(param);
         });
-
-        //selected value aggregation
-        //console.log(canAjax);
-        //console.log(selection);
 
         var report = {};
         report.ReportPath = $('.modal.fade.in .modal-body > div > span:first-child').text();
@@ -274,7 +268,7 @@
     };
 
     var GetDependencies = function () {
-        //console.log("GetDependencies");
+
         var selection_group = '.modal.fade.in .modal-body > div';
         var parameters = [];
         $(selection_group).children('div').each(function () {
@@ -303,7 +297,6 @@
         report.Parameters = parameters;
 
         report = JSON.stringify(report);
-        //console.log(report);
 
         $.ajax({
                 contentType: 'application/json; charset=utf-8',
@@ -314,24 +307,24 @@
                 success: function (result) {
                     //removing toastr
                     toastr.clear();
-                    //console.log(result);
 
+                    //for each output parameters, look for the disabled ones and re-enable them, fill in options
                     $(selection_group).children('div').each(function () {
                         var option = $(this).children("select");
                         if (option.length === 1) {
-                            //if (option.is('[readonly]')) {
-                                $.each(result, function () {
-                                    if (option.attr("Name") == this.Name && this.ValidValues != null) {
-                                        option.removeAttr("readonly");
-                                        $.each(this.ValidValues, function (i, item) {
-                                            option.append($('<option>', {
-                                                value: item.Value,
-                                                text: item.Label
-                                            }))
-                                        });
-                                    }
-                                });
-                            //}
+                            $.each(result, function () {
+                                if (option.attr("Name") == this.Name && this.ValidValues != null) {
+                                    option.removeAttr("readonly");
+                                    $.each(this.ValidValues, function (i, item) {
+                                        option.append($('<option>', {
+                                            value: item.Value,
+                                            text: item.Label
+                                        }))
+                                    });
+                                    //set default options for re-enabled options
+                                    option.val(this.DefaultValues);
+                                }
+                            });
                         }
                     });
                 },

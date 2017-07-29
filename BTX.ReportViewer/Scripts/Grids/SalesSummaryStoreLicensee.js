@@ -229,12 +229,21 @@ function SalesSummaryStoreLicenseeCtrl($http, $scope, GroupDropDown, uiGridConst
         }
     }
 
+    initUser();
     $scope.groups = GroupDropDown.groups;
     $scope.selectedgroup = (GroupService.getCatGroup($scope.currentUserInfo) != '' && GroupService.getCatGroup($scope.currentUserInfo) != null) ? GroupService.getCatGroup($scope.currentUserInfo) : GroupDropDown.groups[document.getElementById('SalesSelectedGroupId').value];
 
     $scope.groupdropboxitemselected = function (item) {
         GroupService.setCatGroup($scope.currentUserInfo, item)
         $scope.selectedgroup = item;
+    }
+
+    function initUser() {
+
+        //Info used in setting the Page
+        $scope.currentUser = document.getElementById('currentUserInfo').value;
+        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
+        $scope.currentUserPrdInfo = $scope.currentUser + "ProductCategorySelected";
     }
 
     init();
@@ -248,9 +257,6 @@ function SalesSummaryStoreLicenseeCtrl($http, $scope, GroupDropDown, uiGridConst
 
         var userid = parseInt(document.getElementById('SalesUserId').value);
         var period = document.getElementById('SalesPeriod').value;
-        //Info used in setting the Page
-        $scope.currentUser = document.getElementById('currentUserInfo').value;
-        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
 
         if (indicator === 1) {
             $http({

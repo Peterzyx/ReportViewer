@@ -1,9 +1,10 @@
 ﻿//SalesSummaryBySegment
 app.controller('salesSummaryBySegmentCtrl', SalesSummaryBySegmentCtrl);
 
-SalesSummaryBySegmentCtrl.$inject = ['$http', '$scope', 'GroupDropDown', 'uiGridConstants','GroupService'];
-function SalesSummaryBySegmentCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupService) {
+SalesSummaryBySegmentCtrl.$inject = ['$http', '$scope', 'GroupDropDown', 'uiGridConstants', 'GroupService','PeriodService'];
+function SalesSummaryBySegmentCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupService, PeriodService) {
 
+  
     //Accordion settings
     $scope.oneAtATime = true;
     $scope.status = {
@@ -418,6 +419,14 @@ function SalesSummaryBySegmentCtrl($http, $scope, GroupDropDown, uiGridConstants
         enableSearch: true
     };
 
+    function initUser() {
+
+        //Info used in setting the Page
+        $scope.currentUser = document.getElementById('currentUserInfo').value;
+        $scope.currentUserGroup = $scope.currentUser + "GroupSelected";
+      $scope.currentUserPromoTurnPeriod = $scope.currentUser + "PromoTurnPeriodSelected";
+    }
+
     init();
 
     //initial loading when rendering the page
@@ -429,8 +438,8 @@ function SalesSummaryBySegmentCtrl($http, $scope, GroupDropDown, uiGridConstants
         mybody.addClass('waiting');
 
         //Info used in setting the Page
-        $scope.currentUser = document.getElementById('currentUserInfo').value;
-        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
+        //$scope.currentUser = document.getElementById('currentUserInfo').value;
+        //$scope.currentUserInfo = $scope.currentUser + "GroupSelected";
 
         var periodkey = {};
         $http({
@@ -445,7 +454,7 @@ function SalesSummaryBySegmentCtrl($http, $scope, GroupDropDown, uiGridConstants
             then(
             function (periodresult) {
                 $scope.periodkeys = periodresult.data;
-                $scope.selectedperiodkey = $scope.periodkeys[0];
+                $scope.selectedperiodkey = (PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != '' && PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != null) ? PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) : $scope.periodkeys[0];
                 periodkey = $scope.selectedperiodkey.label;
 
                 //set export file name
@@ -2111,6 +2120,7 @@ function SalesSummaryBySegmentCtrl($http, $scope, GroupDropDown, uiGridConstants
 
     //dropdown
     $scope.periodkeydropboxitemselected = function (item) {
+        PeriodService.setPeriodPromoTurn($scope.currentUserPromoTurnPeriod, item);
         $scope.selectedperiodkey = item;
         //set export file name
         $scope.gridColor.exporterCsvFilename = 'Market Reports Sales Summary by Color - Ontario - Last Completed Period: ' + $scope.selectedperiodkey.label + '.csv'
@@ -2120,11 +2130,20 @@ function SalesSummaryBySegmentCtrl($http, $scope, GroupDropDown, uiGridConstants
         $scope.gridPriceBand.exporterCsvFilename = 'Market Reports Sales Summary by Price Band - Ontario - Last Completed Period: ' + $scope.selectedperiodkey.label + '.csv'
     }
 
+
     $scope.groups = GroupDropDown.groups;
-    $scope.selectedgroup = (GroupService.getCatGroup($scope.currentUserInfo) != '' && GroupService.getCatGroup($scope.currentUserInfo) != null) ? GroupService.getCatGroup($scope.currentUserInfo) : GroupDropDown.groups[0];
+    $scope.userSettings = function () {
+        if (PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != '' && PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != null) {
+            $scope.selectedperiodkey = PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod);
+            }
+        $scope.selectedgroup = (GroupService.getCatGroup($scope.currentUserGroup) != '' && GroupService.getCatGroup($scope.currentUserGroup) != null) ? GroupService.getCatGroup($scope.currentUserGroup) : GroupDropDown.groups[0];
+    }
+
+    initUser();
+    $scope.userSettings();
 
     $scope.groupdropboxitemselected = function (item) {
-        GroupService.setCatGroup($scope.currentUserInfo, item)
+        GroupService.setCatGroup($scope.currentUserGroup, item)
         $scope.selectedgroup = item;
     }
 

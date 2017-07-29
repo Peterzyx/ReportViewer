@@ -1,12 +1,14 @@
 ﻿
 
-<div ng-controller="salesSummaryBySegmentCtrl" ng-cloak>
+<div id="salesSummaryBySegment" ng-controller="salesSummaryBySegmentCtrl" ng-cloak>
 
     @*Filters Section*@
     <uib-accordion close-others="oneAtATime">
         <div uib-accordion-group class="panel-default" is-open="status.open">
             <uib-accordion-heading>
+                @*<a href="javascript:angular.noop();" ng-click="userSettings();">*@ 
                 Select Grid Parameters <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                @*</a>*@
             </uib-accordion-heading>
             <form id="grid1filters" style="margin-top: 10px; padding-right: 15px; padding-left:15px;">
 

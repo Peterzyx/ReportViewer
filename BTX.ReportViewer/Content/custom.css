@@ -71,7 +71,7 @@
 }
 
 .reportHeaderLink {
-    padding-top: 12px;
+    /*padding-top: 12px;*/
 }
 
 /*COMPANY NAME - PRESSED EFFECT*/
@@ -145,6 +145,7 @@
     border-color: #2e6da4;
     border-radius: 4px;
     text-transform: initial;
+    margin-top:10px;
 }
 
 .modal-footer > button {

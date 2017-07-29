@@ -218,9 +218,7 @@ namespace BTX.ReportViewer.Controllers
                     }
                 }
                 ItemParameter[] output = ReportServer.GetItemParameters(HttpContext, reportPath, null, true, values.ToArray(), null);
-                //var abcObj = new ReportParameterBE { Name = "test", Label = "test", Value = null };
 
-                //return Json(abcObj);
                 return Json(output, JsonRequestBehavior.AllowGet);
             }
             catch (SqlException ex)
@@ -239,7 +237,6 @@ namespace BTX.ReportViewer.Controllers
         protected override void OnException(ExceptionContext filterContext)
         {
             LoggingHelper.LogException(filterContext.Exception);
-           // //WriteLog(Settings.LogErrorFile, filterContext.Exception.ToString());
         }
         private UserPrincipal GetCurrentPrincipal()
         {

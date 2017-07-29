@@ -57,6 +57,7 @@ namespace BTX.ReportViewer.ViewModels
             this.colorname = string.Empty;
             this.countryname = string.Empty;
             this.pricebandname = string.Empty;
+            this.isclientonly = 0;
         }
 
         public GridsModel(string period, int agentid, string agentname, string setnames, string unitsizes, decimal pricefrom, decimal priceto, int selectedgroupid)
@@ -101,6 +102,16 @@ namespace BTX.ReportViewer.ViewModels
             this.salesname = salesname;
             this.accountname = accountnname;
             this.selectedgroupid = selectedgroupid;
+        }
+        public GridsModel(int userid, string period, int isclientonly,  string accountnumber, string salesname, string accountnname, int selectedgroupid)
+        {
+            this.userid = userid;
+            this.period = period;
+            this.accountnumber = accountnumber;
+            this.salesname = salesname;
+            this.accountname = accountnname;
+            this.selectedgroupid = selectedgroupid;
+            this.isclientonly = isclientonly;
         }
 
         public GridsModel(string period, string setnames, string unitsizes, decimal pricefrom, decimal priceto, int selectedgroupid, int type, string value)

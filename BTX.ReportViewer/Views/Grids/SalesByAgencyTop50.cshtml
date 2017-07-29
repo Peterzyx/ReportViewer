@@ -1,12 +1,14 @@
 ﻿
 
-<div ng-controller="top50Ctrl" ng-cloak>
+<div id="top50" ng-controller="top50Ctrl" ng-cloak>
 
     @*Filters Section*@
     <uib-accordion close-others="oneAtATime">
         <div uib-accordion-group class="panel-default" is-open="status.open">
-            <uib-accordion-heading>
+            <uib-accordion-heading >
+                @*<a href="javascript:angular.noop();" ng-click="userSettings();">*@ 
                 Select Grid Parameters <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                @*</a>*@
             </uib-accordion-heading>
             <form id="grid1filters" style="margin-top: 10px; padding-right: 15px; padding-left:15px;">
 
@@ -41,7 +43,7 @@
                 <div class="form-group row">
                     <h4><label class="col-sm-2 col-form-label">Metric</label></h4>
                     <span uib-dropdown on-toggle="toggled(open)">
-                        <button class="btn btn-default" href id="simple-dropdown" uib-dropdown-toggle>
+                        <button class="btn btn-default" href id="simple-dropdown" uib-dropdown-toggle >
                             {{selectedgroup.label}}
                             <span class="caret">
                             </span>

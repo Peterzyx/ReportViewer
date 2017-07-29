@@ -11,7 +11,9 @@ function SalesStoreCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupServ
             { name: 'Size', field: "UnitSizeML", width: 100, cellFilter: 'number:0', type: 'number' },
             { name: 'Listed/Delisted', field: "IsListed", width: 100, cellTemplate: '<div class="ui-grid-cell-contents" style="text-align:left;">{{COL_FIELD}}</div>' },
             { name: 'Set/Subset', field: "Category", width: 200, cellTemplate: '<div class="ui-grid-cell-contents" style="text-align:left;">{{COL_FIELD}}</div>' },
-            
+
+            { name: 'Promo Code', field: "Promo", width: 100, cellTemplate: '<div class="ui-grid-cell-contents" style="text-align:left;">{{COL_FIELD}}</div>' },
+
             //Promo Turn
             { name: 'TY_PromoTurn_9LCases', field: "TY_PromoTurn_9LCases", displayName: 'TY Promo Turn', width: 100, cellFilter: 'number:0', visible: false, type: 'number', aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true, footerCellTemplate: '<div class="ui-grid-cell-contents">{{col.getAggregationValue()|number:0}}</div>' },
             { name: 'LY_PromoTurn_9LCases', field: "LY_PromoTurn_9LCases", displayName: 'LY Promo Turn', width: 100, cellFilter: 'number:0', visible: false, type: 'number', aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true, footerCellTemplate: '<div class="ui-grid-cell-contents">{{col.getAggregationValue()|number:0}}</div>' },
@@ -46,7 +48,7 @@ function SalesStoreCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupServ
             { name: 'Store_13P_UnitsPct', field: "Store_13P_UnitsPct", displayName: "Var %", cellFilter: "mapPercentage", width: 100, visible: false, type: 'number', footerCellTemplate: '<div class="ui-grid-cell-contents" style="text-align:right;"><span id="Store_13P_UnitsPct"></span></div>' },
             
             //Not Defined
-            { name: 'Promo Code', field: "Promo", width: 100, cellTemplate: '<div class="ui-grid-cell-contents" style="text-align:left;">{{COL_FIELD}}</div>' },
+           // { name: 'Promo Code', field: "Promo", width: 100, cellTemplate: '<div class="ui-grid-cell-contents" style="text-align:left;">{{COL_FIELD}}</div>' },
             { name: 'Inventory', field: "StoreInv", width: 100, cellFilter: 'number:0', type: 'number' }
 
         ],
@@ -172,9 +174,12 @@ function SalesStoreCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupServ
         return item;
     }
 
+    //initialize option and then load the grids
+
+    setProductionOption();
 
     init();
-    setProductionOption();
+    
 
     function initUser() {
 
@@ -300,7 +305,7 @@ function SalesStoreCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupServ
         $scope.loadingProducts = true;
         var mybody = angular.element(document).find('body');
         mybody.addClass('waiting');
-        ProductsGridLoad(userid, period, accountnumber);
+        ProductsGridLoad(userid, period, accountnumber, $scope.addCategory($scope.isclientonly.value));
     }
 
     $scope.ReloadCategory = function () {
@@ -368,7 +373,8 @@ function SalesStoreCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupServ
                 "Content-Type": "application/json",
                 "X-UserId": userid,
                 "X-PeriodKey": period,
-                "X-AccountNumber": accountnumber
+                "X-AccountNumber": accountnumber,
+                "X-ClientOnly": $scope.isclientonly.value   // isclientonly
             }
         }).
             then(
@@ -481,101 +487,101 @@ function SalesStoreCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupServ
         if ($scope.selectedgroup.id === 0) {
 
             //Products
-            $scope.gridOptionsProducts.columnDefs[5].visible = true;
             $scope.gridOptionsProducts.columnDefs[6].visible = true;
             $scope.gridOptionsProducts.columnDefs[7].visible = true;
-            $scope.gridOptionsProducts.columnDefs[8].visible = false;
+            $scope.gridOptionsProducts.columnDefs[8].visible = true;
             $scope.gridOptionsProducts.columnDefs[9].visible = false;
             $scope.gridOptionsProducts.columnDefs[10].visible = false;
             $scope.gridOptionsProducts.columnDefs[11].visible = false;
             $scope.gridOptionsProducts.columnDefs[12].visible = false;
             $scope.gridOptionsProducts.columnDefs[13].visible = false;
+            $scope.gridOptionsProducts.columnDefs[14].visible = false;
 
-            $scope.gridOptionsProducts.columnDefs[14].visible = true;
             $scope.gridOptionsProducts.columnDefs[15].visible = true;
             $scope.gridOptionsProducts.columnDefs[16].visible = true;
-            $scope.gridOptionsProducts.columnDefs[17].visible = false;
+            $scope.gridOptionsProducts.columnDefs[17].visible = true;
             $scope.gridOptionsProducts.columnDefs[18].visible = false;
             $scope.gridOptionsProducts.columnDefs[19].visible = false;
             $scope.gridOptionsProducts.columnDefs[20].visible = false;
             $scope.gridOptionsProducts.columnDefs[21].visible = false;
             $scope.gridOptionsProducts.columnDefs[22].visible = false;
+            $scope.gridOptionsProducts.columnDefs[23].visible = false;
 
-            $scope.gridOptionsProducts.columnDefs[23].visible = true;
             $scope.gridOptionsProducts.columnDefs[24].visible = true;
             $scope.gridOptionsProducts.columnDefs[25].visible = true;
-            $scope.gridOptionsProducts.columnDefs[26].visible = false;
+            $scope.gridOptionsProducts.columnDefs[26].visible = true;
             $scope.gridOptionsProducts.columnDefs[27].visible = false;
             $scope.gridOptionsProducts.columnDefs[28].visible = false;
             $scope.gridOptionsProducts.columnDefs[29].visible = false;
             $scope.gridOptionsProducts.columnDefs[30].visible = false;
             $scope.gridOptionsProducts.columnDefs[31].visible = false;
+            $scope.gridOptionsProducts.columnDefs[32].visible = false;
 
         } else if ($scope.selectedgroup.id === 1) {
 
             //Products
-            $scope.gridOptionsProducts.columnDefs[5].visible = false;
             $scope.gridOptionsProducts.columnDefs[6].visible = false;
             $scope.gridOptionsProducts.columnDefs[7].visible = false;
-            $scope.gridOptionsProducts.columnDefs[8].visible = true;
+            $scope.gridOptionsProducts.columnDefs[8].visible = false;
             $scope.gridOptionsProducts.columnDefs[9].visible = true;
             $scope.gridOptionsProducts.columnDefs[10].visible = true;
-            $scope.gridOptionsProducts.columnDefs[11].visible = false;
+            $scope.gridOptionsProducts.columnDefs[11].visible = true;
             $scope.gridOptionsProducts.columnDefs[12].visible = false;
             $scope.gridOptionsProducts.columnDefs[13].visible = false;
-
             $scope.gridOptionsProducts.columnDefs[14].visible = false;
+
             $scope.gridOptionsProducts.columnDefs[15].visible = false;
             $scope.gridOptionsProducts.columnDefs[16].visible = false;
-            $scope.gridOptionsProducts.columnDefs[17].visible = true;
+            $scope.gridOptionsProducts.columnDefs[17].visible = false;
             $scope.gridOptionsProducts.columnDefs[18].visible = true;
             $scope.gridOptionsProducts.columnDefs[19].visible = true;
-            $scope.gridOptionsProducts.columnDefs[20].visible = false;
+            $scope.gridOptionsProducts.columnDefs[20].visible = true;
             $scope.gridOptionsProducts.columnDefs[21].visible = false;
             $scope.gridOptionsProducts.columnDefs[22].visible = false;
-
             $scope.gridOptionsProducts.columnDefs[23].visible = false;
+
             $scope.gridOptionsProducts.columnDefs[24].visible = false;
             $scope.gridOptionsProducts.columnDefs[25].visible = false;
-            $scope.gridOptionsProducts.columnDefs[26].visible = true;
+            $scope.gridOptionsProducts.columnDefs[26].visible = false;
             $scope.gridOptionsProducts.columnDefs[27].visible = true;
             $scope.gridOptionsProducts.columnDefs[28].visible = true;
-            $scope.gridOptionsProducts.columnDefs[29].visible = false;
+            $scope.gridOptionsProducts.columnDefs[29].visible = true;
             $scope.gridOptionsProducts.columnDefs[30].visible = false;
             $scope.gridOptionsProducts.columnDefs[31].visible = false;
+            $scope.gridOptionsProducts.columnDefs[32].visible = false;
 
         } else if ($scope.selectedgroup.id === 2) {
 
             //Products
-            $scope.gridOptionsProducts.columnDefs[5].visible = false;
             $scope.gridOptionsProducts.columnDefs[6].visible = false;
             $scope.gridOptionsProducts.columnDefs[7].visible = false;
             $scope.gridOptionsProducts.columnDefs[8].visible = false;
             $scope.gridOptionsProducts.columnDefs[9].visible = false;
             $scope.gridOptionsProducts.columnDefs[10].visible = false;
-            $scope.gridOptionsProducts.columnDefs[11].visible = true;
+            $scope.gridOptionsProducts.columnDefs[11].visible = false;
             $scope.gridOptionsProducts.columnDefs[12].visible = true;
             $scope.gridOptionsProducts.columnDefs[13].visible = true;
+            $scope.gridOptionsProducts.columnDefs[14].visible = true;
 
-            $scope.gridOptionsProducts.columnDefs[14].visible = false;
             $scope.gridOptionsProducts.columnDefs[15].visible = false;
             $scope.gridOptionsProducts.columnDefs[16].visible = false;
             $scope.gridOptionsProducts.columnDefs[17].visible = false;
             $scope.gridOptionsProducts.columnDefs[18].visible = false;
             $scope.gridOptionsProducts.columnDefs[19].visible = false;
-            $scope.gridOptionsProducts.columnDefs[20].visible = true;
+            $scope.gridOptionsProducts.columnDefs[20].visible = false;
             $scope.gridOptionsProducts.columnDefs[21].visible = true;
             $scope.gridOptionsProducts.columnDefs[22].visible = true;
+            $scope.gridOptionsProducts.columnDefs[23].visible = true;
 
-            $scope.gridOptionsProducts.columnDefs[23].visible = false;
             $scope.gridOptionsProducts.columnDefs[24].visible = false;
             $scope.gridOptionsProducts.columnDefs[25].visible = false;
             $scope.gridOptionsProducts.columnDefs[26].visible = false;
             $scope.gridOptionsProducts.columnDefs[27].visible = false;
             $scope.gridOptionsProducts.columnDefs[28].visible = false;
-            $scope.gridOptionsProducts.columnDefs[29].visible = true;
+            $scope.gridOptionsProducts.columnDefs[29].visible = false;
             $scope.gridOptionsProducts.columnDefs[30].visible = true;
             $scope.gridOptionsProducts.columnDefs[31].visible = true;
+            $scope.gridOptionsProducts.columnDefs[32].visible = true;
 
         }
         if ($scope.gridApiProducts) {
@@ -675,43 +681,43 @@ function SalesLicCtrl($http, $scope, GroupDropDown, uiGridConstants) {
             { name: 'Price', field: "Price", width: 100, pinnedLeft: true },
 
             { name: 'LCBO Sales Cur Per', field: "LCBO_Sales_CP", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[0].name },
-            { name: 'Direct Sales Cur Per', field: "Direct_Sales_CP", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[0].name },
+            { name: 'Direct Sales Cur Per', field: "Direct_Sales_CP", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[0].name },
 
             { name: 'LCBO Sales 1 Per', field: "LCBO_Sales_1P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[1].name },
-            { name: 'Direct Sales 1 Per', field: "Direct_Sales_1P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[1].name },
+            { name: 'Direct Sales 1 Per', field: "Direct_Sales_1P", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[1].name },
 
             { name: 'LCBO Sales 2 Per', field: "LCBO_Sales_2P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[2].name },
-            { name: 'Direct Sales 2 Per', field: "Direct_Sales_2P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[2].name },
+            { name: 'Direct Sales 2 Per', field: "Direct_Sales_2P", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[2].name },
 
             { name: 'LCBO Sales 3 Per', field: "LCBO_Sales_3P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[3].name },
-            { name: 'Direct Sales 3 Per', field: "Direct_Sales_3P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[3].name },
+            { name: 'Direct Sales 3 Per', field: "Direct_Sales_3P", displayName: 'DD', visible: false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[3].name },
 
             { name: 'LCBO Sales 4 Per', field: "LCBO_Sales_4P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[4].name },
-            { name: 'Direct Sales 4 Per', field: "Direct_Sales_4P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[4].name },
+            { name: 'Direct Sales 4 Per', field: "Direct_Sales_4P", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[4].name },
 
             { name: 'LCBO Sales 5 Per', field: "LCBO_Sales_5P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[5].name },
-            { name: 'Direct Sales 5 Per', field: "Direct_Sales_5P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[5].name },
+            { name: 'Direct Sales 5 Per', field: "Direct_Sales_5P", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[5].name },
 
             { name: 'LCBO Sales 6 Per', field: "LCBO_Sales_6P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[6].name },
-            { name: 'Direct Sales 6 Per', field: "Direct_Sales_6P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[6].name },
+            { name: 'Direct Sales 6 Per', field: "Direct_Sales_6P", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[6].name },
 
             { name: 'LCBO Sales 7 Per', field: "LCBO_Sales_7P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[7].name },
-            { name: 'Direct Sales 7 Per', field: "Direct_Sales_7P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[7].name },
+            { name: 'Direct Sales 7 Per', field: "Direct_Sales_7P", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[7].name },
 
             { name: 'LCBO Sales 8 Per', field: "LCBO_Sales_8P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[8].name },
-            { name: 'Direct Sales 8 Per', field: "Direct_Sales_8P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[8].name },
+            { name: 'Direct Sales 8 Per', field: "Direct_Sales_8P", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[8].name },
 
             { name: 'LCBO Sales 9 Per', field: "LCBO_Sales_9P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[9].name },
-            { name: 'Direct Sales 9 Per', field: "Direct_Sales_9P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[9].name },
+            { name: 'Direct Sales 9 Per', field: "Direct_Sales_9P", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[9].name },
 
             { name: 'LCBO Sales 10 Per', field: "LCBO_Sales_10P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[10].name },
-            { name: 'Direct Sales 10 Per', field: "Direct_Sales_10P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[10].name },
+            { name: 'Direct Sales 10 Per', field: "Direct_Sales_10P", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[10].name },
 
             { name: 'LCBO Sales 11 Per', field: "LCBO_Sales_11P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[11].name },
-            { name: 'Direct Sales 11 Per', field: "Direct_Sales_11P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[11].name },
+            { name: 'Direct Sales 11 Per', field: "Direct_Sales_11P", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[11].name },
 
             { name: 'LCBO Sales 12 Per', field: "LCBO_Sales_12P", displayName: 'LCBO', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[12].name },
-            { name: 'Direct Sales 12 Per', field: "Direct_Sales_12P", displayName: 'DD', width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[12].name }
+            { name: 'Direct Sales 12 Per', field: "Direct_Sales_12P", displayName: 'DD', visible:false, width: 100, cellFilter: 'currency:"$":2', type: 'number', category: periodlist[12].name }
         ],
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;

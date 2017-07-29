@@ -84,8 +84,18 @@ function SalesSummaryVarietalProductCtrl($http, $scope, GroupDropDown, uiGridCon
         $scope.gridApi = gridApi;
     };
 
+    initUser();
     $scope.groups = GroupDropDown.groups;
     $scope.selectedgroup = (GroupService.getCatGroup($scope.currentUserInfo) != '' && GroupService.getCatGroup($scope.currentUserInfo) != null) ? GroupService.getCatGroup($scope.currentUserInfo) : GroupDropDown.groups[document.getElementById('SalesSelectedGroupId').value];
+
+
+    function initUser() {
+
+        //Info used in setting the Page
+        $scope.currentUser = document.getElementById('currentUserInfo').value;
+        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
+        $scope.currentUserPrdInfo = $scope.currentUser + "ProductCategorySelected";
+    }
 
     init();
 
@@ -102,9 +112,6 @@ function SalesSummaryVarietalProductCtrl($http, $scope, GroupDropDown, uiGridCon
         var pricefrom = parseFloat(document.getElementById('SalesPriceFrom').value);
         var priceto = parseFloat(document.getElementById('SalesPriceTo').value);
         var varietalname = document.getElementById('VarietalName').value;
-        //Info used in setting the Page
-        $scope.currentUser = document.getElementById('currentUserInfo').value;
-        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
 
         $http({
             url: "/SalesSummaryVarietalProduct",

@@ -1,8 +1,8 @@
 ﻿//SalesSummaryByTerritory
 app.controller('salesSummaryCtrl', SalesSummaryCtrl);
 
-SalesSummaryCtrl.$inject = ['$http', '$scope', 'GroupDropDown', 'uiGridConstants','GroupService'];
-function SalesSummaryCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupService) {
+SalesSummaryCtrl.$inject = ['$http', '$scope', 'GroupDropDown', 'uiGridConstants', 'GroupService','PeriodService'];
+function SalesSummaryCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupService, PeriodService) {
     //UI Grid Setting
     $scope.gridOptions3 = {
         columnDefs: [
@@ -108,18 +108,28 @@ function SalesSummaryCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupSe
     };
     //dropdown
     $scope.periodkeydropboxitemselected = function (item) {
+        PeriodService.setPeriodPromoTurn($scope.currentUserPromoTurnPeriod, item);
         $scope.selectedperiodkey = item;
     }
 
+    init();
+
     $scope.groups = GroupDropDown.groups;
-    $scope.selectedgroup = (GroupService.getCatGroup($scope.currentUserInfo) != '' && GroupService.getCatGroup($scope.currentUserInfo) != null) ? GroupService.getCatGroup($scope.currentUserInfo) : GroupDropDown.groups[1];
+    $scope.userSettings = function () {
+        if (PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != '' && PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != null) {
+            $scope.selectedperiodkey = PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod);
+        }
+        $scope.selectedgroup = (GroupService.getCatGroup($scope.currentUserGroup) != '' && GroupService.getCatGroup($scope.currentUserGroup) != null) ? GroupService.getCatGroup($scope.currentUserGroup) : GroupDropDown.groups[1];
+    }
+  
+    $scope.userSettings();
 
     $scope.groupdropboxitemselected = function (item) {
-        GroupService.setCatGroup($scope.currentUserInfo, item)
+        GroupService.setCatGroup($scope.currentUserGroup, item)
         $scope.selectedgroup = item;
     }
 
-    init();
+  
 
     //initial loading when rendering the page
     function init() {
@@ -130,7 +140,8 @@ function SalesSummaryCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupSe
         mybody.addClass('waiting');
         //Info used in setting the Page
         $scope.currentUser = document.getElementById('currentUserInfo').value;
-        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
+        $scope.currentUserGroup = $scope.currentUser + "GroupSelected";
+        $scope.currentUserPromoTurnPeriod = $scope.currentUser + "PromoTurnPeriodSelected";
 
         var periodkey = {};
         $http({
@@ -145,7 +156,7 @@ function SalesSummaryCtrl($http, $scope, GroupDropDown, uiGridConstants, GroupSe
             then(
             function (periodresult) {
                 $scope.periodkeys = periodresult.data;
-                $scope.selectedperiodkey = $scope.periodkeys[0];
+                $scope.selectedperiodkey = (PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != '' && PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != null) ? PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) : $scope.periodkeys[0];
                 periodkey = $scope.selectedperiodkey.label;
 
                 //set export file name

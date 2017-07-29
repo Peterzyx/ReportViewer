@@ -22,14 +22,14 @@
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Market Reports<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#marketsalesreport" role="tab" data-toggle="tab">Sales By Agency (Top 50)</a></li>
-                    <li><a href="#salessummarybysegments" role="tab" data-toggle="tab">Sales By Segments</a></li>
+                    <li><a href="#marketsalesreport" onclick="angular.element($('#top50')).scope().userSettings();"  role="tab" data-toggle="tab">Sales By Agency (Top 50)</a></li>
+                    <li><a href="#salessummarybysegments" onclick="angular.element($('#salesSummaryBySegment')).scope().userSettings();" role="tab" data-toggle="tab">Sales By Segments</a></li>
                 </ul>
             </li> 
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sales Team Reports<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#salessummaryreport" role="tab" data-toggle="tab">Sales Summary by Territory</a></li>
+                    <li><a href="#salessummaryreport" role="tab" onclick="angular.element($('#salesSummaryCtrl')).scope().userSettings();" data-toggle="tab">Sales Summary by Territory</a></li>
                 </ul>
             </li>
         </ul>

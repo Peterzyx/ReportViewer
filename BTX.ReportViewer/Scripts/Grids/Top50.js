@@ -1,8 +1,8 @@
 ﻿//SalesByAgencyTop50
 app.controller('top50Ctrl', Top50Ctrl);
 
-Top50Ctrl.$inject = ['$http', '$scope', 'GroupDropDown','GroupService'];
-function Top50Ctrl($http, $scope, GroupDropDown, GroupService) {
+Top50Ctrl.$inject = ['$http', '$scope', 'GroupDropDown', 'GroupService','PeriodService'];
+function Top50Ctrl($http, $scope, GroupDropDown, GroupService, PeriodService) {
 
     //Accordion settings
     $scope.oneAtATime = true;
@@ -105,9 +105,9 @@ function Top50Ctrl($http, $scope, GroupDropDown, GroupService) {
         var mybody = angular.element(document).find('body');
         mybody.addClass('waiting');
 
-        //Info used in setting the Page
-        $scope.currentUser = document.getElementById('currentUserInfo').value;
-        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
+        ////Info used in setting the Page
+        //$scope.currentUser = document.getElementById('currentUserInfo').value;
+        //$scope.currentUserInfo = $scope.currentUser + "GroupSelected";
 
         var periodkey = {};
         $http({
@@ -122,7 +122,7 @@ function Top50Ctrl($http, $scope, GroupDropDown, GroupService) {
             then(
             function (periodresult) {
                 $scope.periodkeys = periodresult.data;
-                $scope.selectedperiodkey = $scope.periodkeys[0];
+                $scope.selectedperiodkey = (PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != '' && PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != null) ? PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) : $scope.periodkeys[0];
                 periodkey = $scope.selectedperiodkey.label;
 
                 //set export file name
@@ -373,16 +373,34 @@ function Top50Ctrl($http, $scope, GroupDropDown, GroupService) {
 
     //dropdown
     $scope.periodkeydropboxitemselected = function (item) {
+        PeriodService.setPeriodPromoTurn($scope.currentUserPromoTurnPeriod, item);
         $scope.selectedperiodkey = item;
         //set export file name
         $scope.gridOptions.exporterCsvFilename = 'Market Reports Sales by Agency - Ontario - Last Completed Period: ' + $scope.selectedperiodkey.label + '.csv'
     }
 
-    $scope.groups = GroupDropDown.groups;
-    $scope.selectedgroup = (GroupService.getCatGroup($scope.currentUserInfo) != '' && GroupService.getCatGroup($scope.currentUserInfo) != null) ? GroupService.getCatGroup($scope.currentUserInfo) : GroupDropDown.groups[0];
+    function initUser() {
 
+        //Info used in setting the Page
+        $scope.currentUser = document.getElementById('currentUserInfo').value;
+        $scope.currentUserGroup = $scope.currentUser + "GroupSelected";
+        $scope.currentUserPromoTurnPeriod = $scope.currentUser + "PromoTurnPeriodSelected";
+    }
+
+      
+   
+    
+    $scope.groups = GroupDropDown.groups;
+    $scope.userSettings = function () {
+        if (PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != '' && PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod) != null) {
+            $scope.selectedperiodkey = PeriodService.getPeriodPromoTurn($scope.currentUserPromoTurnPeriod);
+        }
+        $scope.selectedgroup = (GroupService.getCatGroup($scope.currentUserGroup) != '' && GroupService.getCatGroup($scope.currentUserGroup) != null) ? GroupService.getCatGroup($scope.currentUserGroup) : GroupDropDown.groups[0];
+    }
+   initUser();
+   $scope.userSettings();
     $scope.groupdropboxitemselected = function (item) {
-        GroupService.setCatGroup($scope.currentUserInfo, item)
+        GroupService.setCatGroup($scope.currentUserGroup, item)
         $scope.selectedgroup = item;
     }
 

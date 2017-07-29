@@ -83,10 +83,20 @@ function SalesSummaryCountryColorCtrl($http, $scope, GroupDropDown, uiGridConsta
         $scope.gridApi = gridApi;
     };
 
+    initUser();
     $scope.groups = GroupDropDown.groups;
     $scope.selectedgroup = (GroupService.getCatGroup($scope.currentUserInfo) != '' && GroupService.getCatGroup($scope.currentUserInfo) != null) ? GroupService.getCatGroup($scope.currentUserInfo) : GroupDropDown.groups[document.getElementById('SalesSelectedGroupId').value];
 
     init();
+
+    function initUser() {
+
+        //Info used in setting the Page
+        $scope.currentUser = document.getElementById('currentUserInfo').value;
+        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
+        $scope.currentUserPrdInfo = $scope.currentUser + "ProductCategorySelected";
+
+    }
 
     //initial loading when rendering the page
     function init() {
@@ -101,10 +111,6 @@ function SalesSummaryCountryColorCtrl($http, $scope, GroupDropDown, uiGridConsta
         var pricefrom = parseFloat(document.getElementById('SalesPriceFrom').value);
         var priceto = parseFloat(document.getElementById('SalesPriceTo').value);
         var countryname = document.getElementById('CountryName').value;
-
-        //Info used in setting the Page
-        $scope.currentUser = document.getElementById('currentUserInfo').value;
-        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
 
         $http({
             url: "/SalesSummaryCountryColor",

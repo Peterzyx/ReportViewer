@@ -94,6 +94,23 @@ var app = angular.module('myApp',
             getProductCategory: getProductCategory
         };
     })
+    .factory('PeriodService', function () {
+        // localstorage to persist the user Products options
+        var setPeriodPromoTurn = function (cname, cvalue) {
+            localStorage.setItem(cname, JSON.stringify(cvalue));
+        }
+
+        var getPeriodPromoTurn = function (c_name) {
+            var value = JSON.parse(localStorage.getItem(c_name));
+            return value;
+        }
+
+
+        return {
+            setPeriodPromoTurn: setPeriodPromoTurn,
+            getPeriodPromoTurn: getPeriodPromoTurn
+        };
+    })
     ;
 
 app.config(['$qProvider', function ($qProvider) {

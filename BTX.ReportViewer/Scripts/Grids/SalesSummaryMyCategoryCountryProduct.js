@@ -83,9 +83,18 @@ function SalesSummaryMyCategoryCountryProductCtrl($http, $scope, GroupDropDown, 
         $scope.gridApi = gridApi;
     };
 
+    initUser();
     $scope.groups = GroupDropDown.groups;
     $scope.selectedgroup = (GroupService.getCatGroup($scope.currentUserInfo) != '' && GroupService.getCatGroup($scope.currentUserInfo) != null) ? GroupService.getCatGroup($scope.currentUserInfo) : GroupDropDown.groups[document.getElementById('SalesSelectedGroupId').value];
 
+    function initUser() {
+
+        //Info used in setting the Page
+        $scope.currentUser = document.getElementById('currentUserInfo').value;
+        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
+        $scope.currentUserPrdInfo = $scope.currentUser + "ProductCategorySelected";
+
+    }
     init();
 
     //initial loading when rendering the page
@@ -103,10 +112,7 @@ function SalesSummaryMyCategoryCountryProductCtrl($http, $scope, GroupDropDown, 
         var mycategoryname = document.getElementById('MyCategoryName').value;
         var countryname = document.getElementById('CountryName').value;
 
-        //Info used in setting the Page
-        $scope.currentUser = document.getElementById('currentUserInfo').value;
-        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
-
+        
         $http({
             url: "/SalesSummaryMyCategoryCountryProduct",
             dataType: 'json',

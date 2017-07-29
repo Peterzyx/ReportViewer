@@ -180,7 +180,6 @@ app.controller('LandingCtrl', ['$scope', '$http', '$filter', 'GroupDropDown', 'G
     $scope.salespersonalstore = function (storenumber, storename) {
         
         var headeroption = parseInt(document.getElementById('HeaderOption').value);
-
         //create a dynamic form
         var f = document.createElement("form");
         f.setAttribute('id', "salesteamthreesubgridsform");

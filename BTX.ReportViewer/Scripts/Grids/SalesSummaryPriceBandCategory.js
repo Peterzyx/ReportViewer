@@ -85,8 +85,18 @@ function SalesSummaryPriceBandCategoryCtrl($http, $scope, GroupDropDown, uiGridC
         $scope.gridApi = gridApi;
     };
 
+    initUser();
     $scope.groups = GroupDropDown.groups;
     $scope.selectedgroup = (GroupService.getCatGroup($scope.currentUserInfo) != '' && GroupService.getCatGroup($scope.currentUserInfo) != null) ? GroupService.getCatGroup($scope.currentUserInfo) : GroupDropDown.groups[document.getElementById('SalesSelectedGroupId').value];
+
+    function initUser() {
+
+        //Info used in setting the Page
+        $scope.currentUser = document.getElementById('currentUserInfo').value;
+        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
+        $scope.currentUserPrdInfo = $scope.currentUser + "ProductCategorySelected";
+
+    }
 
     init();
 
@@ -103,10 +113,6 @@ function SalesSummaryPriceBandCategoryCtrl($http, $scope, GroupDropDown, uiGridC
         var pricefrom = parseFloat(document.getElementById('SalesPriceFrom').value);
         var priceto = parseFloat(document.getElementById('SalesPriceTo').value);
         var pricebandname = document.getElementById('PriceBandName').value;
-
-        //Info used in setting the Page
-        $scope.currentUser = document.getElementById('currentUserInfo').value;
-        $scope.currentUserInfo = $scope.currentUser + "GroupSelected";
 
         $http({
             url: "/SalesSummaryPriceBandCategory",
